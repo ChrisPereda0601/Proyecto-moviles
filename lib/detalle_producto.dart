@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tienda_online/carrito_detalle.dart';
 
 class DetalleProducto extends StatelessWidget {
   const DetalleProducto({super.key});
@@ -7,51 +8,143 @@ class DetalleProducto extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GlamourOnlineStore'),
+        title: Text('GlamourStore'),
+        backgroundColor: Color.fromRGBO(46, 38, 161, 1),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 25),
+            child: IconButton(
+              icon: Icon(Icons.person),
+              tooltip: "Log In",
+              onPressed: () {
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) => Login(),
+                //   ),
+                // );
+              },
+            ),
+          ),
+        ],
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.network(
-                "https://www.tuexperto.com/wp-content/uploads/2022/06/novedades-shein.jpg.webp",
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              child: Image.asset(
+                "assets/images/bocina.jpg",
                 width: 300,
                 height: 300,
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 16, bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text("Tank Top"),
-                ],
-              ),
-              Column(
-                children: [
-                  Text("\$259.5"),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ListTile(
-                  leading: Icon(Icons.remove),
-                  // Text("5"),
-                  // Icon(Icons.add),
-                  trailing: ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Add"),
+                  Column(
+                    children: [
+                      Text("Tank Top"),
+                    ],
                   ),
+                  Column(
+                    children: [
+                      Text("\$259.5"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Card(
+                    color: Color.fromARGB(255, 214, 237, 255),
+                    elevation: 6,
+                    child: Padding(
+                      padding: const EdgeInsets.all(
+                          10), //Padding entre container y sus elementos.
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Icon(Icons.remove),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color.fromARGB(255, 36, 181, 225)),
+                              ),
+                            ),
+                            Text("1"),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color.fromARGB(255, 36, 181, 225)),
+                              ),
+                              child: Icon(Icons.add),
+                            ),
+                            SizedBox(width: 20),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Color.fromARGB(255, 36, 181, 225)),
+                              ),
+                              child: Text("Agregar a carrito"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                Text(
+                  "Detalles de producto",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                )
+              ],
+            ),
+            Divider(),
+            Text(
+                "Bocina bluetooth inalámbrica TXG Bocina Bluetooth Portátil, Duales Altavoz Inalámbrico Bluetooth 5.0 con Sonido Estéreo HD, Bajos Profundos"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CarritoDetalle(),
+                      ),
+                    );
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 36, 181, 225)),
+                  ),
+                  child: Text("Ver carrito"),
                 ),
-              )
-            ],
-          ),
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
