@@ -14,62 +14,39 @@ class AgragaUbicacion extends StatelessWidget {
           IconButton(onPressed: () {}, icon: Icon(Icons.home))
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Calle",
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Colonia",
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Num ext",
-                        ),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: "Num int",
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Codigo postal",
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {},
-                    child: Text("Realizar pedido"),
-                  ),
-                  MaterialButton(
-                    onPressed: () {},
-                    child: Text("Cancelar"),
-                  ),
-                ],
-              ),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "Calle"),
             ),
-          ),
-        ],
+            TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "Numero"),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "Codigo Postal"),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "Referencias"),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MaterialButton(onPressed: () {}, child: Text("Guardar"),),
+                MaterialButton(onPressed: () {}, child: Text("Cancelar"),),
+              ],
+            )
+          ]),
+        ),
+
       ),
+      
     );
   }
 }
