@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tienda_online/carrito_detalle.dart';
+import 'package:tienda_online/login.dart';
 
 class DetalleProducto extends StatelessWidget {
   const DetalleProducto({super.key});
@@ -17,11 +18,11 @@ class DetalleProducto extends StatelessWidget {
               icon: Icon(Icons.person),
               tooltip: "Log In",
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => Login(),
-                //   ),
-                // );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  ),
+                );
               },
             ),
           ),

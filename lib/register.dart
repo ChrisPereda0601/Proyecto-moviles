@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tienda_online/home_page.dart';
 
 class Register extends StatelessWidget {
   const Register({super.key});
@@ -9,7 +10,13 @@ class Register extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Material App Bar'),
         backgroundColor: Color.fromRGBO(46, 38, 161, 1),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.arrow_back))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -46,7 +53,10 @@ class Register extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomePage()));
+            },
             color: Color.fromRGBO(46, 38, 161, 1),
             child: Text(
               "Register",
