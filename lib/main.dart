@@ -25,9 +25,22 @@ class MyApp extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
           title: 'Material App',
-          home: HomePage(),
+          home: BlocProvider(
+            create: (context) => StoreBloc()..add(GetProductsEvent()),
+            child: HomePage(),
+          ),
         );
       },
     );
+
+    //   @override
+    // Widget build(BuildContext context) {
+    //   return MaterialApp(
+    //     title: 'Material App',
+    //     home: BlocProvider(
+    //       create: (context) => AmphibianBloc()..add(GetAmphibiansEvent()),
+    //       child: HomePage(),
+    //     ),
+    //   );
   }
 }
