@@ -9,9 +9,11 @@ part 'store_event.dart';
 part 'store_state.dart';
 
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
-  List<Product> _products = [];
+  // List<Product> _products = [];
   StoreBloc() : super(StoreState()) {
-    // on<GetProductsEvent>(_getAllProducts);
+    on<GetProductsEvent>((event, emit) {
+      emit(StoreHomeState());
+    });
     on<AddProductEvent>((event, emit) {
       emit(StoreCarState());
     });
