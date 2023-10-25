@@ -50,10 +50,8 @@ class ViewCarEvent extends StoreEvent {
 }
 
 class SearchEvent extends StoreEvent {
-  SearchEvent();
-
-  @override
-  List<Object> get props => [];
+  String product;
+  SearchEvent(this.product);
 }
 
 class QrEvent extends StoreEvent {
