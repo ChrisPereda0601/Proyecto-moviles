@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tienda_online/home_page.dart';
+import 'package:tienda_online/register.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -41,7 +43,10 @@ class Login extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                },
                 color: Color.fromRGBO(46, 38, 161, 1),
                 child: Text(
                   "Login",
@@ -49,7 +54,10 @@ class Login extends StatelessWidget {
                 ),
               ),
               MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Register()));
+                },
                 color: Color.fromRGBO(46, 38, 161, 1),
                 child: Text(
                   "Register",
