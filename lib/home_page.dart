@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/detalle_producto.dart';
-import 'package:tienda_online/search_results.dart';
+// import 'package:tienda_online/search_results.dart';
+
+//Pages
+import 'package:tienda_online/Pages/search_results.dart' as resultsPage;
+
+//Firebase imports
+// import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
+// import 'package:tienda_online/firebase_options.dart';
+import 'package:tienda_online/services/firebase_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -12,6 +23,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _productSearched = '';
+  String get getProductSearched => _productSearched;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +40,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 // Navigator.of(context).push(
                 //   MaterialPageRoute(
-                //     builder: (context) => Login(),
+                //     builder: (context) => QR(),
                 //   ),
                 // );
               },
@@ -49,7 +62,182 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: BlocBuilder<StoreBloc, StoreState>(
+        builder: (context, state) {
+          if (state is StoreHomeState) {
+            return VerticalContent(context);
+          } else if (state is StoreSearchState) {
+            return resultsPage.SearchResults(context, _productSearched);
+          } else if (state is StoreDetailState) {
+            return Container();
+          } else if (state is StoreCarState) {
+            return Container();
+          } else if (state is StoreLoginState) {
+            return Container();
+          } else if (state is StoreRegisterState) {
+            return Container();
+          } else if (state is PayState) {
+            return Container();
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget productGestureDetector() {
+    return FutureBuilder(
+      future: getProducts(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        if (snapshot.hasData) {
+          return Container(
+            height: MediaQuery.of(context).size.height / 3,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DetalleProducto(),
+                  ),
+                );
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          snapshot.data?[0]['name'],
+                          style: TextStyle(fontSize: 24),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: Image.asset(
+                            'assets/images/bocina.jpg',
+                            width: MediaQuery.of(context).size.width / 5,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          snapshot.data?[0]['description'],
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        } else {
+          return GestureDetector();
+        }
+      }),
+    );
+  }
+
+  Widget productGestureDetectorH() {
+    return FutureBuilder(
+      future: getProducts(),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        if (snapshot.hasData) {
+          return Container(
+            height: MediaQuery.of(context).size.height / 5,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => DetalleProducto(),
+                  ),
+                );
+              },
+              child: Container(
+                height: 80,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 8,
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: Image.asset(
+                          'assets/images/bocina.jpg',
+                          width: MediaQuery.of(context).size.width / 5,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  snapshot.data?[0]['name'],
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Precio: ${snapshot.data?[0]['price']}',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        } else {
+          return GestureDetector();
+        }
+      }),
+    );
+  }
+
+  Container VerticalContent(BuildContext context) {
+    List<Widget> gestureDetectors = [];
+    for (int i = 0; i < 6; i++) gestureDetectors.add(productGestureDetector());
+
+    List<Widget> gestureDetectorsH = [];
+    for (int i = 0; i < 6; i++)
+      gestureDetectorsH.add(productGestureDetectorH());
+
+    return Container(
+      height: MediaQuery.of(context).size.height / 2,
+      child: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
@@ -69,12 +257,15 @@ class _HomePageState extends State<HomePage> {
                       border: InputBorder.none,
                     ),
                     onSubmitted: (String product) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              SearchResult(product_searched: product),
-                        ),
-                      );
+                      // _productSearched = product;
+                      BlocProvider.of<StoreBloc>(context)
+                          .add(SearchEvent(product));
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         SearchResult(product_searched: product),
+                      //   ),
+                      // );
                     },
                   ),
                 ),
@@ -87,549 +278,17 @@ class _HomePageState extends State<HomePage> {
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                   crossAxisCount: 2,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Producto',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.asset(
-                                    'assets/images/bocina.jpg',
-                                    width:
-                                        MediaQuery.of(context).size.width / 5,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Bocina bluetooth ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Producto',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.asset(
-                                    'assets/images/bocina.jpg',
-                                    width:
-                                        MediaQuery.of(context).size.width / 5,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Bocina bluetooth ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Producto',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.asset(
-                                    'assets/images/bocina.jpg',
-                                    width:
-                                        MediaQuery.of(context).size.width / 5,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Bocina bluetooth ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Producto',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.asset(
-                                    'assets/images/bocina.jpg',
-                                    width:
-                                        MediaQuery.of(context).size.width / 5,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Bocina bluetooth ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Producto',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.asset(
-                                    'assets/images/bocina.jpg',
-                                    width:
-                                        MediaQuery.of(context).size.width / 5,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Bocina bluetooth ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 8,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Producto',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.asset(
-                                    'assets/images/bocina.jpg',
-                                    width:
-                                        MediaQuery.of(context).size.width / 5,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Bocina bluetooth ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                  children: gestureDetectors,
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height / 5,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          elevation: 8,
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: Image.asset(
-                                  'assets/images/bocina.jpg',
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Bocina Bluetooth',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Precio: 1000',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          elevation: 8,
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: Image.asset(
-                                  'assets/images/bocina.jpg',
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Bocina Bluetooth',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Precio: 1000',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          elevation: 8,
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: Image.asset(
-                                  'assets/images/bocina.jpg',
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Bocina Bluetooth',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Precio: 1000',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetalleProducto(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 80,
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          elevation: 8,
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: Image.asset(
-                                  'assets/images/bocina.jpg',
-                                  width: MediaQuery.of(context).size.width / 5,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Bocina Bluetooth',
-                                          style: TextStyle(fontSize: 18),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Precio: 1000',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              //Recomendaciones horizontal
+
+              // height: MediaQuery.of(context).size.height / 4,
+              // width: MediaQuery.of(context).size.width / 2,
+              // child:
+              ListView(
+                scrollDirection: Axis.horizontal,
+                children: gestureDetectorsH,
               ),
             ],
           ),

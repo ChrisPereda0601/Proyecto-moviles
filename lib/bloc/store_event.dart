@@ -7,7 +7,12 @@ abstract class StoreEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetProductsEvent extends StoreEvent {}
+class GetProductsEvent extends StoreEvent {
+  GetProductsEvent();
+
+  @override
+  List<Object> get props => [];
+}
 
 class AddCarEvent extends StoreEvent {
   AddCarEvent();
@@ -45,10 +50,8 @@ class ViewCarEvent extends StoreEvent {
 }
 
 class SearchEvent extends StoreEvent {
-  SearchEvent();
-
-  @override
-  List<Object> get props => [];
+  String product;
+  SearchEvent(this.product);
 }
 
 class QrEvent extends StoreEvent {
