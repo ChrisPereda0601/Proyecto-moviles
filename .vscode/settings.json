@@ -1,3 +1,4 @@
 {
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "cmake.sourceDirectory": "C:/Users/cpere/OneDrive - ITESO/Ingenieria_en_sistemas_computacionales/7_SEPTIMO_SEMESTRE/Moviles/Proyecto Integrador/Proyecto-moviles/windows"
 }

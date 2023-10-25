@@ -8,7 +8,7 @@ class DetalleProducto extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GlamourStore'),
+        title: Text('ITEStore'),
         backgroundColor: Color.fromRGBO(46, 38, 161, 1),
         actions: [
           Padding(
@@ -70,36 +70,20 @@ class DetalleProducto extends StatelessWidget {
                           10), //Padding entre container y sus elementos.
                       child: Container(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              child: Icon(Icons.remove),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Color.fromARGB(255, 36, 181, 225)),
+                            SizedBox(
+                              width: 300,
+                              height: 45,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Color.fromARGB(255, 36, 181, 225)),
+                                ),
+                                child: Text("Agregar a carrito"),
                               ),
-                            ),
-                            Text("1"),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Color.fromARGB(255, 36, 181, 225)),
-                              ),
-                              child: Icon(Icons.add),
-                            ),
-                            SizedBox(width: 20),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Color.fromARGB(255, 36, 181, 225)),
-                              ),
-                              child: Text("Agregar a carrito"),
                             ),
                           ],
                         ),
