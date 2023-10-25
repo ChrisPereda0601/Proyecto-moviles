@@ -283,12 +283,14 @@ class _HomePageState extends State<HomePage> {
               ),
               //Recomendaciones horizontal
 
-              // height: MediaQuery.of(context).size.height / 4,
-              // width: MediaQuery.of(context).size.width / 2,
               // child:
-              ListView(
-                scrollDirection: Axis.horizontal,
-                children: gestureDetectorsH,
+              Container(
+                height: MediaQuery.of(context).size.height / 4,
+                width: MediaQuery.of(context).size.width / 2,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: gestureDetectorsH,
+                ),
               ),
             ],
           ),
