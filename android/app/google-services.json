@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "120598379512",
+    "project_id": "glamourstore-19f97",
+    "storage_bucket": "glamourstore-19f97.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120598379512:android:b506616e66b573a4eb740d",
+        "android_client_info": {
+          "package_name": "com.example.tienda_online"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-sSrFg22hSrAt4Jk2xLnUWSK2addq-r4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
