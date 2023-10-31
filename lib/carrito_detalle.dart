@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
+import 'package:tienda_online/detalle_producto.dart';
+import 'package:tienda_online/estado_entrega.dart';
+
 
 class CarritoDetalle extends StatefulWidget {
   const CarritoDetalle({super.key});
@@ -38,7 +41,7 @@ class _CarritoDetalleState extends State<CarritoDetalle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GlamourStore'),
+        title: Text('ITEStore'),
         backgroundColor: Color.fromRGBO(46, 38, 161, 1),
         actions: [
           Padding(
@@ -70,11 +73,20 @@ class _CarritoDetalleState extends State<CarritoDetalle> {
                     padding: EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Image.asset(
-                          'assets/images/bocina.jpg',
-                          width: 80.0,
-                          height: 80.0,
-                          fit: BoxFit.cover,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => DetalleProducto(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/bocina.jpg',
+                            width: 80.0,
+                            height: 80.0,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         SizedBox(width: 16.0),
                         Expanded(
@@ -93,9 +105,17 @@ class _CarritoDetalleState extends State<CarritoDetalle> {
                           ),
                         ),
                         // Eliminar
-                        IconButton(
-                          icon: Icon(Icons.remove),
-                          onPressed: () {},
+                        SizedBox(
+                          width: 60.0, // Ancho deseado
+                          height: 30.0, // Alto deseado
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(255, 36, 181, 225)),
+                            ),
+                            child: Icon(Icons.remove),
+                          ),
                         ),
                         // Cantidad
                         Text(
@@ -103,9 +123,17 @@ class _CarritoDetalleState extends State<CarritoDetalle> {
                           style: TextStyle(fontSize: 14.0),
                         ),
                         // Agregar
-                        IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: () {},
+                        SizedBox(
+                          width: 60.0, // Ancho deseado
+                          height: 30.0, // Alto deseado
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(255, 36, 181, 225)),
+                            ),
+                            child: Icon(Icons.add),
+                          ),
                         ),
                       ],
                     ),
