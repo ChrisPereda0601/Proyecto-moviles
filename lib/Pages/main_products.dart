@@ -12,15 +12,18 @@ import 'package:tienda_online/detalle_producto.dart';
 // import 'package:tienda_online/firebase_options.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
- Widget productGestureDetector() {
-    return FutureBuilder(
-      future: getProducts(),
-      builder: ((context, snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        if (snapshot.hasData) {
-          return GestureDetector(
+Widget productGestureDetector() {
+  return FutureBuilder(
+    future: getProducts(),
+    builder: ((context, snapshot) {
+      if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      }
+      if (snapshot.hasData) {
+        return Container(
+          height: MediaQuery.of(context).size.height / 3,
+          width: MediaQuery.of(context).size.width / 3,
+          child: GestureDetector(
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -61,32 +64,41 @@ import 'package:tienda_online/services/firebase_services.dart';
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        snapshot.data?[0]['description'],
-                        style: TextStyle(fontSize: 15),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Text(
+                          snapshot.data?[0]['description'],
+                          style: TextStyle(fontSize: 15),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-          );
-        } else {
-          return GestureDetector();
-        }
-      }),
-    );
-  }
+          ),
+        );
+      } else {
+        return GestureDetector();
+      }
+    }),
+  );
+}
 
-  Widget productGestureDetectorH() {
-    return FutureBuilder(
-      future: getProducts(),
-      builder: ((context, snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
-        if (snapshot.hasData) {
-          return GestureDetector(
+Widget productGestureDetectorH() {
+  return FutureBuilder(
+    future: getProducts(),
+    builder: ((context, snapshot) {
+      if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      }
+      if (snapshot.hasData) {
+        return Container(
+          height: MediaQuery.of(context).size.height / 5,
+          width: MediaQuery.of(context).size.width / 2,
+          child: GestureDetector(
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -139,23 +151,25 @@ import 'package:tienda_online/services/firebase_services.dart';
                 ),
               ),
             ),
-          );
-        } else {
-          return GestureDetector();
-        }
-      }),
-    );
-  }
+          ),
+        );
+      } else {
+        return Container(height: 200, width: 200, child: GestureDetector());
+      }
+    }),
+  );
+}
 
-  SingleChildScrollView VerticalContent(BuildContext context) {
-    List<Widget> gestureDetectors = [];
-    for (int i = 0; i < 6; i++) gestureDetectors.add(productGestureDetector());
+Container VerticalContent(BuildContext context) {
+  List<Widget> gestureDetectors = [];
+  for (int i = 0; i < 6; i++) gestureDetectors.add(productGestureDetector());
 
-    List<Widget> gestureDetectorsH = [];
-    for (int i = 0; i < 6; i++)
-      gestureDetectorsH.add(productGestureDetectorH());
+  List<Widget> gestureDetectorsH = [];
+  for (int i = 0; i < 6; i++) gestureDetectorsH.add(productGestureDetectorH());
 
-    return SingleChildScrollView(
+  return Container(
+    height: MediaQuery.of(context).size.height,
+    child: SingleChildScrollView(
       child: Center(
         child: Column(
           children: [
@@ -170,13 +184,14 @@ import 'package:tienda_online/services/firebase_services.dart';
                 height: 40,
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Search',
+                    labelText: 'Search',
                     icon: Icon(Icons.search),
                     border: InputBorder.none,
                   ),
                   onSubmitted: (String product) {
                     // _productSearched = product;
-                    BlocProvider.of<StoreBloc>(context).add(SearchEvent(product));
+                    BlocProvider.of<StoreBloc>(context)
+                        .add(SearchEvent(product));
                     // Navigator.of(context).push(
                     //   MaterialPageRoute(
                     //     builder: (context) =>
@@ -188,7 +203,7 @@ import 'package:tienda_online/services/firebase_services.dart';
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 1.8,
+              height: MediaQuery.of(context).size.height / 1.6,
               child: GridView.count(
                 primary: false,
                 padding: EdgeInsets.all(20),
@@ -198,9 +213,9 @@ import 'package:tienda_online/services/firebase_services.dart';
                 children: gestureDetectors,
               ),
             ),
-            //Recomendaciones horizontal
             Container(
-              height: MediaQuery.of(context).size.height / 5,
+              height: MediaQuery.of(context).size.height / 6,
+              width: MediaQuery.of(context).size.width,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: gestureDetectorsH,
@@ -209,6 +224,6 @@ import 'package:tienda_online/services/firebase_services.dart';
           ],
         ),
       ),
-    );
-  }
-
+    ),
+  );
+}
