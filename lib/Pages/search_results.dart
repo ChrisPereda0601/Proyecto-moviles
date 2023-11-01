@@ -91,7 +91,7 @@ Widget SeacrhContent() {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
+                          Wrap(
                             children: [
                               Text(
                                 snapshot.data?[0]['name'],
@@ -99,10 +99,10 @@ Widget SeacrhContent() {
                               ),
                             ],
                           ),
-                          Row(
+                          Wrap(
                             children: [
                               Text(
-                                'Bocina bluetooth  de larga duración',
+                                'Bocina bluetooth',
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],

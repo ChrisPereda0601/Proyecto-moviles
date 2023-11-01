@@ -96,6 +96,7 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.hasData) {
           return Container(
             height: MediaQuery.of(context).size.height / 3,
+            width: MediaQuery.of(context).size.height / 3,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -149,7 +150,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return GestureDetector();
+          return Container();
         }
       }),
     );
@@ -165,6 +166,7 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.hasData) {
           return Container(
             height: MediaQuery.of(context).size.height / 5,
+            width: MediaQuery.of(context).size.height / 5,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
@@ -221,7 +223,7 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else {
-          return GestureDetector();
+          return Container();
         }
       }),
     );
