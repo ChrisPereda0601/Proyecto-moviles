@@ -20,54 +20,63 @@ Widget productGestureDetector() {
         return Text('Error: ${snapshot.error}');
       }
       if (snapshot.hasData) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DetalleProducto(),
+        return Container(
+          height: MediaQuery.of(context).size.height / 3,
+          width: MediaQuery.of(context).size.width / 3,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => DetalleProducto(),
+                ),
+              );
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
               ),
-            );
-          },
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            elevation: 8,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      snapshot.data?[0]['name'],
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image.asset(
-                        'assets/images/bocina.jpg',
-                        width: MediaQuery.of(context).size.width / 5,
-                        fit: BoxFit.fill,
+              elevation: 8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        snapshot.data?[0]['name'],
+                        style: TextStyle(fontSize: 24),
                       ),
-                    ),
-                  ],
-                ),
-                Wrap(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      snapshot.data?[0]['description'],
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: Image.asset(
+                          'assets/images/bocina.jpg',
+                          width: MediaQuery.of(context).size.width / 5,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Text(
+                          snapshot.data?[0]['description'],
+                          style: TextStyle(fontSize: 15),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -86,126 +95,134 @@ Widget productGestureDetectorH() {
         return Text('Error: ${snapshot.error}');
       }
       if (snapshot.hasData) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DetalleProducto(),
-              ),
-            );
-          },
-          child: Container(
-            height: 80,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              elevation: 8,
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12.0),
-                    child: Image.asset(
-                      'assets/images/bocina.jpg',
-                      width: MediaQuery.of(context).size.width / 5,
-                      fit: BoxFit.fill,
+        return Container(
+          height: MediaQuery.of(context).size.height / 5,
+          width: MediaQuery.of(context).size.width / 2,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => DetalleProducto(),
+                ),
+              );
+            },
+            child: Container(
+              height: 80,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                elevation: 8,
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: Image.asset(
+                        'assets/images/bocina.jpg',
+                        width: MediaQuery.of(context).size.width / 5,
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              snapshot.data?[0]['name'],
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Precio: ${snapshot.data?[0]['price']}',
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                snapshot.data?[0]['name'],
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Precio: ${snapshot.data?[0]['price']}',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         );
       } else {
-        return GestureDetector();
+        return Container(height: 200, width: 200, child: GestureDetector());
       }
     }),
   );
 }
 
-SingleChildScrollView VerticalContent(BuildContext context) {
+Container VerticalContent(BuildContext context) {
   List<Widget> gestureDetectors = [];
   for (int i = 0; i < 6; i++) gestureDetectors.add(productGestureDetector());
 
   List<Widget> gestureDetectorsH = [];
   for (int i = 0; i < 6; i++) gestureDetectorsH.add(productGestureDetectorH());
 
-  return SingleChildScrollView(
-    child: Center(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-            child: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 200, 199, 199),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              height: 40,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  icon: Icon(Icons.search),
-                  border: InputBorder.none,
+  return Container(
+    height: MediaQuery.of(context).size.height,
+    child: SingleChildScrollView(
+      child: Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 200, 199, 199),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                onSubmitted: (String product) {
-                  // _productSearched = product;
-                  BlocProvider.of<StoreBloc>(context).add(SearchEvent(product));
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         SearchResult(product_searched: product),
-                  //   ),
-                  // );
-                },
+                height: 40,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Search',
+                    icon: Icon(Icons.search),
+                    border: InputBorder.none,
+                  ),
+                  onSubmitted: (String product) {
+                    // _productSearched = product;
+                    BlocProvider.of<StoreBloc>(context)
+                        .add(SearchEvent(product));
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) =>
+                    //         SearchResult(product_searched: product),
+                    //   ),
+                    // );
+                  },
+                ),
               ),
             ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height / 1.8,
-            child: GridView.count(
-              primary: false,
-              padding: EdgeInsets.all(20),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 2,
-              children: gestureDetectors,
+            Container(
+              height: MediaQuery.of(context).size.height / 1.6,
+              child: GridView.count(
+                primary: false,
+                padding: EdgeInsets.all(20),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+                children: gestureDetectors,
+              ),
             ),
-          ),
-          //Recomendaciones horizontal
-          Container(
-            height: MediaQuery.of(context).size.height / 5,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: gestureDetectorsH,
+            Container(
+              height: MediaQuery.of(context).size.height / 6,
+              width: MediaQuery.of(context).size.width,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: gestureDetectorsH,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );

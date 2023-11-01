@@ -6,6 +6,7 @@ import 'package:tienda_online/detalle_producto.dart';
 
 //Pages
 import 'package:tienda_online/Pages/search_results.dart' as resultsPage;
+import 'package:tienda_online/Pages/main_products.dart' as mainPage;
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
       body: BlocBuilder<StoreBloc, StoreState>(
         builder: (context, state) {
           if (state is StoreHomeState) {
-            return VerticalContent(context);
+            return mainPage.VerticalContent(context);
           } else if (state is StoreSearchState) {
             return resultsPage.SearchResults(context, _productSearched);
           } else if (state is StoreDetailState) {
