@@ -61,18 +61,18 @@ Future<void> addToCart(int quantity) async {
   // Verifica si el usuario ya tiene un carrito
   if (data.containsKey('cart')) {
     Map<String, dynamic> cart = data['cart'];
-    if (cart.containsKey('I1jmjgHZTUGDi3k3Wnz7')) {
+    if (cart.containsKey('I1jmjgHZTUGDi3k3Wnz6')) {
       // Si el producto ya está en el carrito, actualiza la cantidad
-      cart['I1jmjgHZTUGDi3k3Wnz7'] =
-          (cart['I1jmjgHZTUGDi3k3Wnz7'] as int) + quantity;
+      cart['I1jmjgHZTUGDi3k3Wnz6'] =
+          (cart['I1jmjgHZTUGDi3k3Wnz6'] as int) + quantity;
       print("Se llegó aquí");
     } else {
       // Si el producto no está en el carrito, agrégalo
-      cart['I1jmjgHZTUGDi3k3Wnz7'] = quantity;
+      cart['I1jmjgHZTUGDi3k3Wnz6'] = quantity;
     }
   } else {
     // Si el usuario no tiene un carrito, crea uno nuevo
-    data['cart'] = {'I1jmjgHZTUGDi3k3Wnz7': quantity};
+    data['cart'] = {'I1jmjgHZTUGDi3k3Wnz6': quantity};
   }
 
   // Actualiza el carrito en la base de datos
