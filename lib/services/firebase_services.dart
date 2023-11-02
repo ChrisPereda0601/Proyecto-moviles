@@ -49,7 +49,6 @@ Future<DocumentSnapshot<Object?>> getSpecificProduct() async {
   return product;
 }
 
-
 Future<void> addToCart(int quantity) async {
   String userID = 'pc3EWbYjinPMHdTNMlOD';
 
@@ -82,7 +81,12 @@ Future<void> addToCart(int quantity) async {
       .set({'cart': data['cart']}, SetOptions(merge: true));
 }
 
-  Future<List> getUserCartQuantity() async {
+Future<List> getUserCartQuantity() async {
+  String userID = 'pc3EWbYjinPMHdTNMlOD';
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
   Map cart = data['cart'];
   List productsQuantity = [];
 
@@ -91,7 +95,6 @@ Future<void> addToCart(int quantity) async {
   }
 
   return productsQuantity;
-
 }
 
 Future<num> getUserCartTotal() async {
