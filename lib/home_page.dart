@@ -10,6 +10,8 @@ import 'package:tienda_online/Pages/search_results.dart' as resultsPage;
 import 'package:tienda_online/Pages/main_products.dart' as mainPage;
 import 'package:tienda_online/Pages/cart.dart' as cartPage;
 import 'package:tienda_online/Pages/detalle_producto.dart' as productPage;
+import 'package:tienda_online/Pages/login.dart' as loginPage;
+import 'package:tienda_online/Pages/register.dart' as registerPage;
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -56,11 +58,7 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.person),
               tooltip: "Log In",
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => Login(),
-                //   ),
-                // );
+                BlocProvider.of<StoreBloc>(context).add(LoginEvent());
               },
             ),
           ),
@@ -77,9 +75,9 @@ class _HomePageState extends State<HomePage> {
           } else if (state is StoreCarState) {
             return cartPage.cartContent(context);
           } else if (state is StoreLoginState) {
-            return Container();
+            return loginPage.loginForm(context);
           } else if (state is StoreRegisterState) {
-            return Container();
+            return registerPage.registerForm(context);
           } else if (state is PayState) {
             return Container();
           } else {

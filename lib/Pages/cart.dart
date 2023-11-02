@@ -4,7 +4,6 @@ import 'package:tienda_online/bloc/store_bloc.dart';
 // import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 import 'package:tienda_online/Pages/detalle_producto.dart'
     as productPage; // import 'package:tienda_online/estado_entrega.dart';
-import 'package:tienda_online/estado_entrega.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
 Future<List> productsQuantity() async {

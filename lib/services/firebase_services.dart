@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tienda_online/models/product.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
