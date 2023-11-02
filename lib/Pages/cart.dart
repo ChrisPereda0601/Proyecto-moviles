@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 // import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
-import 'package:tienda_online/detalle_producto.dart';
-// import 'package:tienda_online/estado_entrega.dart';
+import 'package:tienda_online/Pages/detalle_producto.dart'
+    as productPage; // import 'package:tienda_online/estado_entrega.dart';
+import 'package:tienda_online/estado_entrega.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
 Future<List> productsQuantity() async {
@@ -33,7 +34,8 @@ Widget CartProducts(int i) {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => DetalleProducto(),
+                          builder: (context) =>
+                              productPage.detalleProducto(context),
                         ),
                       );
                     },
@@ -126,7 +128,6 @@ Future<num> PriceTotal() async {
 Widget cartContent(BuildContext context) {
   List<Widget> cartProducts = [];
   for (int i = 0; i < 2; i++) cartProducts.add(CartProducts(i));
-
   return Column(children: [
     Align(
       alignment: Alignment.centerLeft,
@@ -280,4 +281,5 @@ Widget cartContent(BuildContext context) {
   //     ),
   //   ],
   // ),
+
 }
