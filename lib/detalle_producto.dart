@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/carrito_detalle.dart';
 import 'package:tienda_online/login.dart';
 
@@ -114,11 +116,12 @@ class DetalleProducto extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CarritoDetalle(),
-                      ),
-                    );
+                    BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => CarritoDetalle(),
+                    //   ),
+                    // );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
