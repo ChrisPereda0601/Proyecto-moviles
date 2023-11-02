@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tienda_online/carrito_detalle.dart';
-import 'package:tienda_online/detalle_producto.dart';
+import 'package:tienda_online/Pages/cart.dart' as cartPage;
+import 'package:tienda_online/Pages/detalle_producto.dart' as productPage;
 import 'package:tienda_online/home_page.dart';
 
 class AgragaUbicacion extends StatelessWidget {
@@ -15,8 +15,9 @@ class AgragaUbicacion extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => DetalleProducto()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        productPage.detalleProducto(context)));
               },
               icon: Icon(Icons.arrow_back)),
           IconButton(
@@ -55,7 +56,8 @@ class AgragaUbicacion extends StatelessWidget {
                     MaterialButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CarritoDetalle()));
+                            builder: (context) =>
+                                cartPage.cartContent(context)));
                       },
                       child: Text("Guardar"),
                     ),

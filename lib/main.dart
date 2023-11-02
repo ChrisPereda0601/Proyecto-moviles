@@ -13,14 +13,18 @@ import 'package:tienda_online/firebase_options.dart';
 // import 'package:tienda_online/services/firebase_services.dart';
 
 Future<void> main() async {
-  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => StoreBloc(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

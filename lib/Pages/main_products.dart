@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:tienda_online/bloc/store_bloc.dart';
-import 'package:tienda_online/detalle_producto.dart';
+import 'package:tienda_online/Pages/detalle_producto.dart' as productPage;
 // import 'package:tienda_online/search_results.dart';
 
 //Firebase imports
@@ -25,11 +25,7 @@ Widget productGestureDetector() {
           width: MediaQuery.of(context).size.width / 3,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => DetalleProducto(),
-                ),
-              );
+              BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
             },
             child: Card(
               shape: RoundedRectangleBorder(
@@ -100,11 +96,7 @@ Widget productGestureDetectorH() {
           width: MediaQuery.of(context).size.width / 2,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => DetalleProducto(),
-                ),
-              );
+              BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
             },
             child: Container(
               height: 80,
