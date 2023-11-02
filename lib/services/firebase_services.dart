@@ -38,6 +38,24 @@ Future<List> getUserCart() async {
   return products;
 }
 
+Future<List> getUserCartQuantity() async {
+  String userID = 'pc3EWbYjinPMHdTNMlOD';
+
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+
+  Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
+  Map cart = data['cart'];
+  List productsQuantity = [];
+
+  for (var productQuan in cart.values) {
+    productsQuantity.add(productQuan);
+  }
+
+  return productsQuantity;
+}
+
 Future<num> getUserCartTotal() async {
   String userID = 'pc3EWbYjinPMHdTNMlOD';
 
