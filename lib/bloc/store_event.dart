@@ -97,3 +97,8 @@ class DecreseaseProductEvent extends StoreEvent {
   @override
   List<Object> get props => [];
 }
+
+//Eventos para adición a carrito
+class GetStoredProductsEvent extends StoreEvent {}
+
+class SaveProductToStorageEvent extends StoreEvent {}

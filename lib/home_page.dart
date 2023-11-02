@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
-import 'package:tienda_online/detalle_producto.dart';
 // import 'package:tienda_online/search_results.dart';
 
 //Pages
 import 'package:tienda_online/Pages/search_results.dart' as resultsPage;
 import 'package:tienda_online/Pages/main_products.dart' as mainPage;
 import 'package:tienda_online/Pages/cart.dart' as cartPage;
+import 'package:tienda_online/Pages/detalle_producto.dart' as productPage;
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GlamourOnlineStore'),
+        title: Text('ITEStore'),
         backgroundColor: Color.fromRGBO(46, 38, 161, 1),
         actions: [
           Padding(
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
           } else if (state is StoreSearchState) {
             return resultsPage.SearchResults(context, _productSearched);
           } else if (state is StoreDetailState) {
-            return Container();
+            return productPage.detalleProducto(context);
           } else if (state is StoreCarState) {
             return cartPage.cartContent(context);
           } else if (state is StoreLoginState) {

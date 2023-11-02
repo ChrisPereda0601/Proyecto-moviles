@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:tienda_online/bloc/store_bloc.dart';
-import 'package:tienda_online/detalle_producto.dart';
-// import 'package:tienda_online/search_results.dart';
+import 'package:tienda_online/Pages/detalle_producto.dart'
+    as productPage; // import 'package:tienda_online/search_results.dart';
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -65,7 +65,7 @@ Widget SeacrhContent() {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => DetalleProducto(),
+                  builder: (context) => productPage.detalleProducto(context),
                 ),
               );
             },
@@ -91,7 +91,7 @@ Widget SeacrhContent() {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
+                          Wrap(
                             children: [
                               Text(
                                 snapshot.data?[0]['name'],
@@ -99,10 +99,10 @@ Widget SeacrhContent() {
                               ),
                             ],
                           ),
-                          Row(
+                          Wrap(
                             children: [
                               Text(
-                                'Bocina bluetooth  de larga duración',
+                                'Bocina bluetooth',
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
