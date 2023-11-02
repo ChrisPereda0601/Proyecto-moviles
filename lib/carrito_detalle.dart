@@ -251,22 +251,44 @@ class _CarritoDetalleState extends State<CarritoDetalle> {
           //     ),
           //   ],
           // ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     ElevatedButton(
-          //       onPressed: () {},
-          //       style: ButtonStyle(
-          //         backgroundColor: MaterialStateProperty.all<Color>(
-          //           Color.fromARGB(255, 36, 181, 225),
-          //         ),
-          //       ),
-          //       child: Text(
-          //         "Vaciar carrito",
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => EstadoEntrega(),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromARGB(255, 36, 181, 225),
+                  ),
+                ),
+                child: Text(
+                  "Confirmar compra",
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromARGB(255, 36, 181, 225),
+                  ),
+                ),
+                child: Text(
+                  "Vaciar carrito",
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

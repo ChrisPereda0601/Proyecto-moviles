@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:tienda_online/home_page.dart';
 
 //Bloc imports
@@ -12,6 +13,7 @@ import 'package:tienda_online/firebase_options.dart';
 // import 'package:tienda_online/services/firebase_services.dart';
 
 Future<void> main() async {
+  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
