@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
+
+// import 'package:tienda_online/detalle_producto.dart';
 // import 'package:tienda_online/search_results.dart';
 
 //Pages
@@ -13,7 +15,7 @@ import 'package:tienda_online/Pages/detalle_producto.dart' as productPage;
 // import 'package:firebase_core/firebase_core.dart';
 // import 'firebase_options.dart';
 // import 'package:tienda_online/firebase_options.dart';
-import 'package:tienda_online/services/firebase_services.dart';
+// import 'package:tienda_online/services/firebase_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({

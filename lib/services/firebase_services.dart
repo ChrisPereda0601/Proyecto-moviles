@@ -49,6 +49,7 @@ Future<DocumentSnapshot<Object?>> getSpecificProduct() async {
   return product;
 }
 
+
 Future<void> addToCart(int quantity) async {
   String userID = 'pc3EWbYjinPMHdTNMlOD';
 
@@ -79,6 +80,18 @@ Future<void> addToCart(int quantity) async {
   await userCollection
       .doc(userID)
       .set({'cart': data['cart']}, SetOptions(merge: true));
+}
+
+  Future<List> getUserCartQuantity() async {
+  Map cart = data['cart'];
+  List productsQuantity = [];
+
+  for (var productQuan in cart.values) {
+    productsQuantity.add(productQuan);
+  }
+
+  return productsQuantity;
+
 }
 
 Future<num> getUserCartTotal() async {

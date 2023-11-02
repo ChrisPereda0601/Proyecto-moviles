@@ -182,8 +182,9 @@ Container VerticalContent(BuildContext context) {
                   ),
                   onSubmitted: (String product) {
                     // _productSearched = product;
-                    BlocProvider.of<StoreBloc>(context)
-                        .add(SearchEvent(product));
+                    // BlocProvider.of<StoreBloc>(context)
+                    //     .add(SearchEvent(product));
+                    BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
                     // Navigator.of(context).push(
                     //   MaterialPageRoute(
                     //     builder: (context) =>
