@@ -167,11 +167,12 @@ class DetalleProducto extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CarritoDetalle(),
-                      ),
-                    );
+                    BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
+                    // Navigator.of(context).push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => CarritoDetalle(),
+                    //   ),
+                    // );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(

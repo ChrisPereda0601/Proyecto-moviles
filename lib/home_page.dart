@@ -7,6 +7,7 @@ import 'package:tienda_online/detalle_producto.dart';
 //Pages
 import 'package:tienda_online/Pages/search_results.dart' as resultsPage;
 import 'package:tienda_online/Pages/main_products.dart' as mainPage;
+import 'package:tienda_online/Pages/cart.dart' as cartPage;
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
           } else if (state is StoreDetailState) {
             return Container();
           } else if (state is StoreCarState) {
-            return Container();
+            return cartPage.cartContent(context);
           } else if (state is StoreLoginState) {
             return Container();
           } else if (state is StoreRegisterState) {

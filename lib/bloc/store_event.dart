@@ -23,9 +23,6 @@ class AddCarEvent extends StoreEvent {
 
 class AddProductEvent extends StoreEvent {
   AddProductEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class DeleteProductEvent extends StoreEvent {
@@ -44,11 +41,9 @@ class ShowDetailProduct extends StoreEvent {
 
 class ViewCarEvent extends StoreEvent {
   ViewCarEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
+// ignore: must_be_immutable
 class SearchEvent extends StoreEvent {
   String product;
   SearchEvent(this.product);
