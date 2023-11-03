@@ -51,3 +51,4 @@ final class FormSavedErrorState extends StoreState {
   @override
   List<Object> get props => [errorMsg];
 }
+
