@@ -21,6 +21,8 @@ final class StoreRegisterState extends StoreState {}
 
 final class PayState extends StoreState {}
 
+final class LoadingState extends StoreState {}
+
 //Estados para adición de productos a carrito
 final class RetrievedProductsProcessingState extends StoreState {}
 

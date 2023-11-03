@@ -84,7 +84,7 @@ Widget detalleProducto(BuildContext context) {
                                     height: 45,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        addToCart(1);
+                                        addToCart();
                                         print("Se agregó uno al carrito");
                                       },
                                       style: ButtonStyle(

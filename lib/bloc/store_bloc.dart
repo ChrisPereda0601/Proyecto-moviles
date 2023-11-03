@@ -25,9 +25,11 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(StoreHomeState());
     });
     on<AddProductEvent>((event, emit) {
+      emit(LoadingState());
       emit(StoreCarState());
     });
     on<DeleteProductEvent>((event, emit) {
+      emit(LoadingState());
       emit(StoreCarState());
     });
     on<ShowDetailProduct>((event, emit) {

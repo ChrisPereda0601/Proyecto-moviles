@@ -80,6 +80,8 @@ class _HomePageState extends State<HomePage> {
             return registerPage.registerForm(context);
           } else if (state is PayState) {
             return Container();
+          } else if (state is LoadingState) {
+            return CircularProgressIndicator();
           } else {
             return Container();
           }

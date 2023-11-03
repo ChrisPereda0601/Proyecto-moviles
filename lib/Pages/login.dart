@@ -19,6 +19,10 @@ Form loginForm(BuildContext context) {
               icon: Icon(Icons.arrow_back_ios_new_rounded),
             ),
           ),
+          Text(
+            'Login',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           TextFormField(
             decoration: InputDecoration(labelText: 'Email'),
             // validator: (value) {

@@ -19,6 +19,22 @@ Form registerForm(BuildContext context) {
               icon: Icon(Icons.arrow_back_ios_new_rounded),
             ),
           ),
+          Text(
+            'Register',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Name'),
+            // validator: (value) {
+            //   if (value.isEmpty || !value.contains('@')) {
+            //     return 'Please enter a valid email address';
+            //   }
+            //   return null;
+            // },
+            // onSaved: (value) {
+            //   _email = value;
+            // },
+          ),
           TextFormField(
             decoration: InputDecoration(labelText: 'Email'),
             // validator: (value) {
@@ -48,13 +64,8 @@ Form registerForm(BuildContext context) {
           // RaisedButton(
           //   onPressed: _submitForm,
           // child:
-          Text('Login'),
+          Text('Sign in'),
           // ),
-          TextButton(
-              onPressed: () {
-                BlocProvider.of<StoreBloc>(context).add(RegisterEvent());
-              },
-              child: Text('Sign in?'))
         ],
       ),
     ),
