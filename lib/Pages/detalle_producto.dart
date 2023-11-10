@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
-import 'package:tienda_online/Pages/cart.dart' as cartPage;
 import 'package:tienda_online/services/firebase_services.dart';
 
 Widget detalleProducto(BuildContext context) {
@@ -85,7 +84,7 @@ Widget detalleProducto(BuildContext context) {
                                     height: 45,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        addToCart(1);
+                                        addToCart();
                                         print("Se agregó uno al carrito");
                                       },
                                       style: ButtonStyle(

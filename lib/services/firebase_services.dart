@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tienda_online/models/product.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -49,7 +48,7 @@ Future<DocumentSnapshot<Object?>> getSpecificProduct() async {
   return product;
 }
 
-Future<void> addToCart(int quantity) async {
+Future<void> addToCart() async {
   String userID = 'pc3EWbYjinPMHdTNMlOD';
 
   CollectionReference userCollection =
@@ -63,16 +62,45 @@ Future<void> addToCart(int quantity) async {
     Map<String, dynamic> cart = data['cart'];
     if (cart.containsKey('I1jmjgHZTUGDi3k3Wnz6')) {
       // Si el producto ya está en el carrito, actualiza la cantidad
-      cart['I1jmjgHZTUGDi3k3Wnz6'] =
-          (cart['I1jmjgHZTUGDi3k3Wnz6'] as int) + quantity;
-      print("Se llegó aquí");
+      cart['I1jmjgHZTUGDi3k3Wnz6'] = (cart['I1jmjgHZTUGDi3k3Wnz6'] as int) + 1;
     } else {
       // Si el producto no está en el carrito, agrégalo
-      cart['I1jmjgHZTUGDi3k3Wnz6'] = quantity;
+      cart['I1jmjgHZTUGDi3k3Wnz6'] = 1;
     }
   } else {
     // Si el usuario no tiene un carrito, crea uno nuevo
-    data['cart'] = {'I1jmjgHZTUGDi3k3Wnz6': quantity};
+    data['cart'] = {'I1jmjgHZTUGDi3k3Wnz6': 1};
+  }
+
+  // Actualiza el carrito en la base de datos
+  await userCollection
+      .doc(userID)
+      .set({'cart': data['cart']}, SetOptions(merge: true));
+}
+
+Future<void> deleteFromCart() async {
+  String userID = 'pc3EWbYjinPMHdTNMlOD';
+
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+
+  Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
+
+  // Verifica si el usuario ya tiene un carrito
+  if (data.containsKey('cart')) {
+    Map<String, dynamic> cart = data['cart'];
+    if (cart.containsKey('I1jmjgHZTUGDi3k3Wnz6') &&
+        cart['I1jmjgHZTUGDi3k3Wnz6'] as int > 1) {
+      // Si el producto ya está en el carrito, actualiza la cantidad
+      cart['I1jmjgHZTUGDi3k3Wnz6'] = (cart['I1jmjgHZTUGDi3k3Wnz6'] as int) - 1;
+    } else {
+      // Si el producto no está en el carrito, agrégalo
+      cart['I1jmjgHZTUGDi3k3Wnz6'] = 1;
+    }
+  } else {
+    // Si el usuario no tiene un carrito, crea uno nuevo
+    data['cart'] = {'I1jmjgHZTUGDi3k3Wnz6': 1};
   }
 
   // Actualiza el carrito en la base de datos

@@ -1,10 +1,6 @@
-// import 'dart:async';
-
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 // import 'package:tienda_online/models/product.dart';
 // import 'package:flutter/material.dart';
 // import 'package:tienda_online/models/product.dart';
@@ -18,9 +14,11 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(StoreHomeState());
     });
     on<AddProductEvent>((event, emit) {
+      emit(LoadingState());
       emit(StoreCarState());
     });
     on<DeleteProductEvent>((event, emit) {
+      emit(LoadingState());
       emit(StoreCarState());
     });
     on<ShowDetailProduct>((event, emit) {

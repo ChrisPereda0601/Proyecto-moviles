@@ -9,7 +9,6 @@ import 'package:tienda_online/services/firebase_services.dart';
 
 Future<List> productsQuantity() async {
   List ids = await getUserCartQuantity();
-  // print("total: $total");
   return ids;
 }
 
@@ -32,12 +31,8 @@ Widget CartProducts(int i) {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              productPage.detalleProducto(context),
-                        ),
-                      );
+                      BlocProvider.of<StoreBloc>(context)
+                          .add(ShowDetailProduct());
                     },
                     child: Image.asset(
                       'assets/images/bocina.jpg',
@@ -67,7 +62,11 @@ Widget CartProducts(int i) {
                     width: 60.0, // Ancho deseado
                     height: 30.0, // Alto deseado
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await deleteFromCart();
+                        BlocProvider.of<StoreBloc>(context)
+                            .add(AddProductEvent());
+                      },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromARGB(255, 36, 181, 225)),
@@ -96,7 +95,8 @@ Widget CartProducts(int i) {
                     width: 60.0, // Ancho deseado
                     height: 30.0, // Alto deseado
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await addToCart();
                         BlocProvider.of<StoreBloc>(context)
                             .add(AddProductEvent());
                       },

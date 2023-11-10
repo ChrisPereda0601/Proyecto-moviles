@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tienda_online/login.dart';
 
 class EstadoEntrega extends StatelessWidget {
   const EstadoEntrega({super.key});
@@ -10,22 +9,6 @@ class EstadoEntrega extends StatelessWidget {
       appBar: AppBar(
         title: Text('ITEStore te agradece'),
         backgroundColor: Color.fromRGBO(46, 38, 161, 1),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 25),
-            child: IconButton(
-              icon: Icon(Icons.person),
-              tooltip: "Log In",
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => Login(),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
