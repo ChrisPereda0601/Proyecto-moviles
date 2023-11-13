@@ -1,14 +1,7 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:tienda_online/bloc/store_bloc.dart';
-// import 'package:tienda_online/search_results.dart';
-
-//Firebase imports
-// import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
-// import 'package:tienda_online/firebase_options.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
 Widget productGestureDetector() {
@@ -19,6 +12,8 @@ Widget productGestureDetector() {
         return Text('Error: ${snapshot.error}');
       }
       if (snapshot.hasData) {
+        Random random = Random();
+        int randomProduct = random.nextInt(10);
         return Container(
           height: MediaQuery.of(context).size.height / 3,
           width: MediaQuery.of(context).size.width / 3,
@@ -37,9 +32,14 @@ Widget productGestureDetector() {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        snapshot.data?[0]['name'],
-                        style: TextStyle(fontSize: 24),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Text(
+                          snapshot.data?[randomProduct]['name'],
+                          style: TextStyle(fontSize: 24),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
@@ -48,10 +48,23 @@ Widget productGestureDetector() {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12.0),
-                        child: Image.asset(
-                          'assets/images/bocina.jpg',
-                          width: MediaQuery.of(context).size.width / 5,
-                          fit: BoxFit.fill,
+                        child: FutureBuilder(
+                          future: getImageUrl(
+                              snapshot.data?[randomProduct]['image']),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Image.network(
+                                snapshot.data.toString(),
+                                width: MediaQuery.of(context).size.width / 5,
+                                fit: BoxFit.fill,
+                              );
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -62,7 +75,7 @@ Widget productGestureDetector() {
                       Container(
                         width: MediaQuery.of(context).size.width / 3,
                         child: Text(
-                          snapshot.data?[0]['description'],
+                          snapshot.data?[randomProduct]['description'],
                           style: TextStyle(fontSize: 15),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -90,9 +103,11 @@ Widget productGestureDetectorH() {
         return Text('Error: ${snapshot.error}');
       }
       if (snapshot.hasData) {
+        Random random = Random();
+        int randomProduct = random.nextInt(10);
         return Container(
           height: MediaQuery.of(context).size.height / 5,
-          width: MediaQuery.of(context).size.width / 2,
+          width: MediaQuery.of(context).size.width / 1.5,
           child: GestureDetector(
             onTap: () {
               BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
@@ -107,13 +122,25 @@ Widget productGestureDetectorH() {
                 child: Row(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image.asset(
-                        'assets/images/bocina.jpg',
-                        width: MediaQuery.of(context).size.width / 5,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: FutureBuilder(
+                          future: getImageUrl(
+                              snapshot.data?[randomProduct]['image']),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              return Image.network(
+                                snapshot.data.toString(),
+                                width: MediaQuery.of(context).size.width / 5,
+                                fit: BoxFit.fill,
+                              );
+                            }
+                          },
+                        )),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 15),
                       child: Column(
@@ -121,16 +148,21 @@ Widget productGestureDetectorH() {
                         children: [
                           Row(
                             children: [
-                              Text(
-                                snapshot.data?[0]['name'],
-                                style: TextStyle(fontSize: 18),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 3,
+                                child: Text(
+                                  snapshot.data?[randomProduct]['name'],
+                                  style: TextStyle(fontSize: 18),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ],
                           ),
                           Row(
                             children: [
                               Text(
-                                'Precio: ${snapshot.data?[0]['price']}',
+                                'Precio: \$${snapshot.data?[randomProduct]['price']}',
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -180,15 +212,8 @@ Container VerticalContent(BuildContext context) {
                     border: InputBorder.none,
                   ),
                   onSubmitted: (String product) {
-                    // _productSearched = product;
                     BlocProvider.of<StoreBloc>(context)
                         .add(SearchEvent(product));
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) =>
-                    //         SearchResult(product_searched: product),
-                    //   ),
-                    // );
                   },
                 ),
               ),

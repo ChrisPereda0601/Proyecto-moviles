@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -149,4 +150,9 @@ Future<num> getUserCartTotal() async {
   }
 
   return productsTotal;
+}
+
+Future<String> getImageUrl(String url) async {
+  Reference storageReference = FirebaseStorage.instance.ref().child(url);
+  return await storageReference.getDownloadURL();
 }
