@@ -34,8 +34,7 @@ class ViewCarEvent extends StoreEvent {
 
 // ignore: must_be_immutable
 class SearchEvent extends StoreEvent {
-  String product;
-  SearchEvent(this.product);
+  SearchEvent();
 }
 
 class QrEvent extends StoreEvent {

@@ -29,8 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _productSearched = '';
-  String get getProductSearched => _productSearched;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +67,7 @@ class _HomePageState extends State<HomePage> {
           if (state is StoreHomeState) {
             return mainPage.VerticalContent(context);
           } else if (state is StoreSearchState) {
-            return resultsPage.SearchResults(context, _productSearched);
+            return resultsPage.SearchResults(context);
           } else if (state is StoreDetailState) {
             return productPage.detalleProducto(context);
           } else if (state is StoreCarState) {

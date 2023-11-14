@@ -7,6 +7,15 @@ import 'package:tienda_online/services/firebase_services.dart';
 Map<String, dynamic> _productDetail = {};
 Map<String, dynamic> get getProductDetail => _productDetail;
 
+class Detail {
+  void setProductDetail(Map<String, dynamic> productDetail) {
+    _productDetail = productDetail;
+  }
+}
+
+TextEditingController _productSearched = TextEditingController();
+TextEditingController get getProductSearched => _productSearched;
+
 Widget productGestureDetector() {
   return FutureBuilder(
     future: getProducts(),
@@ -22,7 +31,6 @@ Widget productGestureDetector() {
           width: MediaQuery.of(context).size.width / 3,
           child: GestureDetector(
             onTap: () {
-              print(snapshot);
               _productDetail = snapshot.data?[randomProduct];
               BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
             },
@@ -215,9 +223,9 @@ Container VerticalContent(BuildContext context) {
                     icon: Icon(Icons.search),
                     border: InputBorder.none,
                   ),
+                  controller: _productSearched,
                   onSubmitted: (String product) {
-                    BlocProvider.of<StoreBloc>(context)
-                        .add(SearchEvent(product));
+                    BlocProvider.of<StoreBloc>(context).add(SearchEvent());
                   },
                 ),
               ),
