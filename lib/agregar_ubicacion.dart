@@ -57,7 +57,7 @@ class AgragaUbicacion extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                cartPage.cartContent(context)));
+                                cartPage.CartContent(context)));
                       },
                       child: Text("Guardar"),
                     ),

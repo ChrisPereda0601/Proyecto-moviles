@@ -10,7 +10,11 @@ Future<List> getProducts() async {
   QuerySnapshot queryProducts = await referenceProducts.get();
 
   queryProducts.docs.forEach((product) {
-    products.add(product.data());
+    Map<String, dynamic> productData = product.data() as Map<String, dynamic>;
+    String productId = product.id;
+    productData['id'] = productId;
+
+    products.add(productData);
   });
 
   return products;
@@ -33,9 +37,11 @@ Future<List> getUserCart() async {
 
   for (var productId in cart.keys) {
     product = await productsCollection.doc(productId).get();
-    products.add(product.data());
-  }
+    Map<String, dynamic> productData = product.data() as Map<String, dynamic>;
+    productData['id'] = productId;
 
+    products.add(productData);
+  }
   return products;
 }
 
@@ -49,8 +55,9 @@ Future<DocumentSnapshot<Object?>> getSpecificProduct() async {
   return product;
 }
 
-Future<void> addToCart() async {
+Future<void> addToCart(String id) async {
   String userID = 'pc3EWbYjinPMHdTNMlOD';
+  print('Id es: ' + id);
 
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
@@ -61,16 +68,16 @@ Future<void> addToCart() async {
   // Verifica si el usuario ya tiene un carrito
   if (data.containsKey('cart')) {
     Map<String, dynamic> cart = data['cart'];
-    if (cart.containsKey('I1jmjgHZTUGDi3k3Wnz6')) {
+    if (cart.containsKey(id)) {
       // Si el producto ya está en el carrito, actualiza la cantidad
-      cart['I1jmjgHZTUGDi3k3Wnz6'] = (cart['I1jmjgHZTUGDi3k3Wnz6'] as int) + 1;
+      cart[id] = (cart[id] as int) + 1;
     } else {
       // Si el producto no está en el carrito, agrégalo
-      cart['I1jmjgHZTUGDi3k3Wnz6'] = 1;
+      cart[id] = 1;
     }
   } else {
     // Si el usuario no tiene un carrito, crea uno nuevo
-    data['cart'] = {'I1jmjgHZTUGDi3k3Wnz6': 1};
+    data['cart'] = {id: 1};
   }
 
   // Actualiza el carrito en la base de datos
@@ -79,7 +86,7 @@ Future<void> addToCart() async {
       .set({'cart': data['cart']}, SetOptions(merge: true));
 }
 
-Future<void> deleteFromCart() async {
+Future<void> deleteFromCart(String id) async {
   String userID = 'pc3EWbYjinPMHdTNMlOD';
 
   CollectionReference userCollection =
@@ -91,17 +98,16 @@ Future<void> deleteFromCart() async {
   // Verifica si el usuario ya tiene un carrito
   if (data.containsKey('cart')) {
     Map<String, dynamic> cart = data['cart'];
-    if (cart.containsKey('I1jmjgHZTUGDi3k3Wnz6') &&
-        cart['I1jmjgHZTUGDi3k3Wnz6'] as int > 1) {
+    if (cart.containsKey(id) && cart[id] as int > 1) {
       // Si el producto ya está en el carrito, actualiza la cantidad
-      cart['I1jmjgHZTUGDi3k3Wnz6'] = (cart['I1jmjgHZTUGDi3k3Wnz6'] as int) - 1;
+      cart[id] = (cart[id] as int) - 1;
     } else {
       // Si el producto no está en el carrito, agrégalo
-      cart['I1jmjgHZTUGDi3k3Wnz6'] = 1;
+      cart[id] = 1;
     }
   } else {
     // Si el usuario no tiene un carrito, crea uno nuevo
-    data['cart'] = {'I1jmjgHZTUGDi3k3Wnz6': 1};
+    data['cart'] = {id: 1};
   }
 
   // Actualiza el carrito en la base de datos

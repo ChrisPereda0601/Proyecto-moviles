@@ -22,6 +22,7 @@ Widget productGestureDetector() {
           width: MediaQuery.of(context).size.width / 3,
           child: GestureDetector(
             onTap: () {
+              print(snapshot);
               _productDetail = snapshot.data?[randomProduct];
               BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
             },

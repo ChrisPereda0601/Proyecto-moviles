@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
           } else if (state is StoreDetailState) {
             return productPage.detalleProducto(context);
           } else if (state is StoreCarState) {
-            return cartPage.cartContent(context);
+            return cartPage.CartContent(context);
           } else if (state is StoreLoginState) {
             return loginPage.loginForm(context);
           } else if (state is StoreRegisterState) {

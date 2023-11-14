@@ -87,7 +87,7 @@ Widget detalleProducto(BuildContext context) {
                               height: 45,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  addToCart();
+                                  addToCart(getProductDetail['id']);
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:
