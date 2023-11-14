@@ -1,6 +1,6 @@
-import 'dart:convert';
+// import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
+// import 'package:equatable/equatable.dart';
 
 class Product {
   final String name;

@@ -7,9 +7,7 @@ import 'package:tienda_online/bloc/store_bloc.dart';
 
 //Firebase imports
 import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
 import 'package:tienda_online/firebase_options.dart';
-// import 'package:tienda_online/services/firebase_services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
