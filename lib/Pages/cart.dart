@@ -31,13 +31,24 @@ Widget CartProducts(int i) {
                       BlocProvider.of<StoreBloc>(context)
                           .add(ShowDetailProduct());
                     },
-                    child: Image.asset(
-                      'assets/images/bocina.jpg',
-                      width: 80.0,
-                      height: 80.0,
-                      fit: BoxFit.cover,
+                    child: FutureBuilder(
+                      future: getImageUrl(snapshot.data?[i]['image']),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return Image.network(
+                            snapshot.data.toString(),
+                            width: 80.0,
+                            height: 80.0,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      },
                     ),
                   ),
+
                   SizedBox(width: 16.0),
                   Expanded(
                     child: Column(

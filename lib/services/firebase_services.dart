@@ -150,7 +150,7 @@ Future<num> getUserCartTotal() async {
 
   for (var productId in cart.keys) {
     product = await productsCollection.doc(productId).get();
-    price = product['price'] as num;
+    price = (product['price'] as num) * (cart[productId] as num);
     print(price);
     productsTotal += price;
   }
