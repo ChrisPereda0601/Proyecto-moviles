@@ -1,55 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/Pages/main_products.dart';
+// import 'package:tienda_online/Pages/main_products.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
 Widget SearchResults(BuildContext context) {
-  return Container(
-      child: FutureBuilder<List<Widget>>(
-          future: SeacrhContent(context),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              // If the Future is completed successfully, display the results.
-              return Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            BlocProvider.of<StoreBloc>(context)
-                                .add(GetProductsEvent());
-                          },
-                          icon: Icon(Icons.arrow_back_ios_new_rounded),
-                        ),
-                        Text(
-                          '',
-                          // 'Buscando: ${SearchEvent.product}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
+  return SingleChildScrollView(
+    child: Container(
+        child: FutureBuilder<List<Widget>>(
+            future: SeacrhContent(context),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              BlocProvider.of<StoreBloc>(context)
+                                  .add(GetProductsEvent());
+                            },
+                            icon: Icon(Icons.arrow_back_ios_new_rounded),
                           ),
+                          Text(
+                            '',
+                            // 'Buscando: ${SearchEvent.product}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 200, 199, 199),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                      ],
+                        height: 40,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Search',
+                            icon: Icon(Icons.search),
+                            border: InputBorder.none,
+                          ),
+                          controller: getProductSearched,
+                          onSubmitted: (String product) {
+                            BlocProvider.of<StoreBloc>(context)
+                                .add(SearchEvent());
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height / 1.3,
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: ListView(
-                      children: snapshot.data ?? [],
+                    Container(
+                      height: MediaQuery.of(context).size.height / 1.3,
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: ListView(
+                        children: snapshot.data ?? [],
+                      ),
                     ),
-                  ),
-                ],
-              );
-            }
-          }));
+                  ],
+                );
+              }
+            })),
+  );
 }
 
 Future<List<Widget>> SeacrhContent(BuildContext context) async {
