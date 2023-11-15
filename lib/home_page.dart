@@ -29,6 +29,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
   String _productSearched = '';
   String get getProductSearched => _productSearched;
 
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
       NoConnectionEvent(), // Ajusta según sea necesario
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +103,43 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _onTabTapped(index);
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Buscar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Carrito',
+          ),
+        ],
+      ),
     );
+  }
+
+  void _onTabTapped(int index) {
+    switch (index) {
+      case 0:
+        BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+        break;
+      case 1:
+        BlocProvider.of<StoreBloc>(context).add(SearchEvent());
+        break;
+      case 2:
+        BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
+        break;
+    }
   }
 }

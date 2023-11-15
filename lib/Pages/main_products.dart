@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tienda_online/Pages/search_results.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
