@@ -1,5 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
+import 'package:tienda_online/Pages/main_products.dart';
+// import 'package:flutter/material.dart';
+// import 'package:tienda_online/models/product.dart';
+// import 'package:flutter/material.dart';
+// import 'package:tienda_online/models/product.dart';
 
 part 'store_event.dart';
 part 'store_state.dart';
@@ -40,6 +46,15 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     });
     on<DeleteCarEvent>((event, emit) {
       emit(StoreCarState());
+    });
+    on<NoConnectionEvent>((event, emit) async {
+      bool hasConnection = await ConnectivityService().hasConnection();
+
+      if (!hasConnection) {
+        emit(NoConnectionState());
+      } else {
+        emit(StoreHomeState());
+      }
     });
 
     // on<StoreEvent>((event, emit) {});

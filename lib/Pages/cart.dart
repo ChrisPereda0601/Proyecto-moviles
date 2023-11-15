@@ -67,8 +67,8 @@ Widget CartProducts(int i) {
                   ),
                   // Eliminar
                   SizedBox(
-                    width: 60.0, // Ancho deseado
-                    height: 30.0, // Alto deseado
+                    width: 60.0,
+                    height: 30.0,
                     child: ElevatedButton(
                       onPressed: () async {
                         await deleteFromCart(snapshot.data?[i]['id']);

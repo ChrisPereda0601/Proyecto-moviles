@@ -64,3 +64,7 @@ class IncreaseProdcutEvent extends StoreEvent {
 class DecreseaseProductEvent extends StoreEvent {
   DecreseaseProductEvent();
 }
+
+class NoConnectionEvent extends StoreEvent {
+  NoConnectionEvent();
+}

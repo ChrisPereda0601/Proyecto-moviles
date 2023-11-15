@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -254,4 +255,51 @@ Container VerticalContent(BuildContext context) {
       ),
     ),
   );
+}
+
+//Pantalla para falta de conexión
+
+class ConnectivityService {
+  Future<bool> hasConnection() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none;
+  }
+}
+
+class NoConnectionContent extends StatelessWidget {
+  final VoidCallback onRetry;
+
+  NoConnectionContent({required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset(
+          "assets/images/no-internet.png",
+        ),
+        Text(
+          'No tienes conexión a internet. 🚫',
+          style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(height: 20),
+        SizedBox(
+          width: 220.0,
+          height: 50.0,
+          child: ElevatedButton(
+            onPressed: onRetry,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Color.fromARGB(255, 36, 181, 225)),
+            ),
+            child: Text(
+              'Verificar conexión de nuevo',
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

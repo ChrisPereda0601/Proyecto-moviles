@@ -29,6 +29,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _productSearched = '';
+  String get getProductSearched => _productSearched;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<StoreBloc>(context).add(
+      NoConnectionEvent(), // Ajusta según sea necesario
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +74,13 @@ class _HomePageState extends State<HomePage> {
       ),
       body: BlocBuilder<StoreBloc, StoreState>(
         builder: (context, state) {
-          if (state is StoreHomeState) {
+          if (state is NoConnectionState) {
+            return mainPage.NoConnectionContent(
+              onRetry: () {
+                BlocProvider.of<StoreBloc>(context).add(NoConnectionEvent());
+              },
+            );
+          } else if (state is StoreHomeState) {
             return mainPage.VerticalContent(context);
           } else if (state is StoreSearchState) {
             return resultsPage.SearchResults(context);
