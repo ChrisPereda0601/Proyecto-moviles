@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
       NoConnectionEvent(), // Ajusta según sea necesario
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,11 +83,11 @@ class _HomePageState extends State<HomePage> {
           } else if (state is StoreHomeState) {
             return mainPage.VerticalContent(context);
           } else if (state is StoreSearchState) {
-            return resultsPage.SearchResults(context, _productSearched);
+            return resultsPage.SearchResults(context);
           } else if (state is StoreDetailState) {
             return productPage.detalleProducto(context);
           } else if (state is StoreCarState) {
-            return cartPage.cartContent(context);
+            return cartPage.CartContent(context);
           } else if (state is StoreLoginState) {
             return loginPage.loginForm(context);
           } else if (state is StoreRegisterState) {
