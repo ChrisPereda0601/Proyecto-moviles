@@ -52,3 +52,6 @@ final class FormSavedErrorState extends StoreState {
   List<Object> get props => [errorMsg];
 }
 
+//Estado para falta de conexión
+
+final class NoConnectionState extends StoreState {}

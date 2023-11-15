@@ -97,3 +97,7 @@ class DecreseaseProductEvent extends StoreEvent {
   @override
   List<Object> get props => [];
 }
+
+class NoConnectionEvent extends StoreEvent {
+  NoConnectionEvent();
+}
