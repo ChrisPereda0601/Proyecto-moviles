@@ -12,6 +12,7 @@ import 'package:tienda_online/Pages/cart.dart' as cartPage;
 import 'package:tienda_online/Pages/detalle_producto.dart' as productPage;
 import 'package:tienda_online/Pages/login.dart' as loginPage;
 import 'package:tienda_online/Pages/register.dart' as registerPage;
+import 'package:tienda_online/Pages/orders.dart' as ordersPage;
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -90,6 +91,8 @@ class _HomePageState extends State<HomePage> {
             return productPage.detalleProducto(context);
           } else if (state is StoreCarState) {
             return cartPage.CartContent(context);
+          } else if (state is StoreOrdersState) {
+            return ordersPage.Orders(context);
           } else if (state is StoreLoginState) {
             return loginPage.loginForm(context);
           } else if (state is StoreRegisterState) {
@@ -124,7 +127,15 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.shopping_cart),
             label: 'Carrito',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Pedidos',
+          ),
         ],
+        selectedLabelStyle: TextStyle(color: Colors.black),
+        unselectedLabelStyle: TextStyle(color: Colors.black54),
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black54,
       ),
     );
   }
@@ -139,6 +150,9 @@ class _HomePageState extends State<HomePage> {
         break;
       case 2:
         BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
+        break;
+      case 3:
+        BlocProvider.of<StoreBloc>(context).add(ViewOrdersEvent());
         break;
     }
   }

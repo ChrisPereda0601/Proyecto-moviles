@@ -53,5 +53,7 @@ final class FormSavedErrorState extends StoreState {
 }
 
 //Estado para falta de conexión
-
 final class NoConnectionState extends StoreState {}
+
+//Manejo de pedidos
+final class StoreOrdersState extends StoreState {}

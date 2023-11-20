@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tienda_online/Pages/main_products.dart';
 // import 'package:flutter/material.dart';
@@ -30,6 +29,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(StoreCarState());
     });
     on<SearchEvent>((event, emit) {
+      emit(LoadingState());
       emit(StoreSearchState());
     });
     on<QrEvent>((event, emit) {
@@ -55,6 +55,9 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       } else {
         emit(StoreHomeState());
       }
+    });
+    on<ViewOrdersEvent>((event, emit) {
+      emit(StoreOrdersState());
     });
 
     // on<StoreEvent>((event, emit) {});
