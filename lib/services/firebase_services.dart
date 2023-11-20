@@ -45,6 +45,52 @@ Future<List> getUserCart() async {
   return products;
 }
 
+//Get user orders
+Future<List<Map<String, dynamic>>> getUserOrder() async {
+  String userID = 'pc3EWbYjinPMHdTNMlOD';
+
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+
+  CollectionReference productsCollection =
+      FirebaseFirestore.instance.collection('products');
+  // DocumentSnapshot<Object?> product;
+
+  Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
+
+  dynamic orderData = data['order'];
+  List<Map<String, dynamic>> orderList = [];
+  List<Map<String, dynamic>> productList = [];
+
+  if (orderData is List<dynamic>) {
+    for (var item in orderData) {
+      if (item is Map<String, dynamic>) {
+        orderList.add(item);
+      }
+    }
+  }
+
+  for (var orderItem in orderData) {
+    var productId = orderItem.keys.first;
+    var productQuantity = orderItem.values.first;
+
+    DocumentSnapshot<Object?> product =
+        await productsCollection.doc(productId).get();
+
+    if (product.exists) {
+      Map<String, dynamic> productData =
+          (product.data() as Map<String, dynamic>).cast<String, dynamic>();
+      productData['id'] = productId;
+      productData['quantity'] = productQuantity;
+
+      productList.add(productData);
+    }
+  }
+
+  return productList;
+}
+
 Future<DocumentSnapshot<Object?>> getSpecificProduct() async {
   CollectionReference productsCollection =
       FirebaseFirestore.instance.collection('products');

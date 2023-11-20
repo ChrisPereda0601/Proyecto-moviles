@@ -13,6 +13,7 @@ import 'package:tienda_online/Pages/detalle_producto.dart' as productPage;
 import 'package:tienda_online/Pages/login.dart' as loginPage;
 import 'package:tienda_online/Pages/register.dart' as registerPage;
 import 'package:tienda_online/Pages/orders.dart' as ordersPage;
+import 'package:tienda_online/estado_entrega.dart' as entregaPage;
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -89,6 +90,8 @@ class _HomePageState extends State<HomePage> {
             return resultsPage.SearchResults(context);
           } else if (state is StoreDetailState) {
             return productPage.detalleProducto(context);
+          } else if (state is StoreOrderState) {
+            return entregaPage.EstadoEntrega();
           } else if (state is StoreCarState) {
             return cartPage.CartContent(context);
           } else if (state is StoreOrdersState) {

@@ -28,6 +28,10 @@ class ShowDetailProduct extends StoreEvent {
   ShowDetailProduct();
 }
 
+class ShowOrderProduct extends StoreEvent {
+  ShowOrderProduct();
+}
+
 class ViewCarEvent extends StoreEvent {
   ViewCarEvent();
 }

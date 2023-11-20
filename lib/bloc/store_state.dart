@@ -13,6 +13,8 @@ final class StoreSearchState extends StoreState {}
 
 final class StoreDetailState extends StoreState {}
 
+final class StoreOrderState extends StoreState {}
+
 final class StoreCarState extends StoreState {}
 
 final class StoreLoginState extends StoreState {}

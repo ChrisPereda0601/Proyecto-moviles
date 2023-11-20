@@ -10,114 +10,110 @@ Future<List> productsQuantity() async {
 
 Widget Orders(BuildContext context) {
   return FutureBuilder(
-    future: getUserCart(),
+    future: getUserOrder(),
     builder: ((context, snapshot) {
       if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
       }
-      if (snapshot.hasData) {
-        return Container(
-          height: MediaQuery.of(context).size.height / 6,
-          width: MediaQuery.of(context).size.width,
-          child: Card(
-            margin: EdgeInsets.all(8.0),
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      BlocProvider.of<StoreBloc>(context)
-                          .add(ShowDetailProduct());
-                    },
-                    child: FutureBuilder(
-                      future: getImageUrl(snapshot.data?[0]['image']),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else {
-                          return Image.network(
-                            snapshot.data.toString(),
-                            width: 80.0,
-                            height: 80.0,
-                            fit: BoxFit.cover,
-                          );
-                        }
-                      },
-                    ),
-                  ),
+      if (snapshot.hasData && snapshot.data?.isNotEmpty == true) {
+        List<Map<String, dynamic>> orders =
+            snapshot.data as List<Map<String, dynamic>>;
 
-                  SizedBox(width: 16.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          snapshot.data?[0]['name'],
-                          style: TextStyle(fontSize: 16.0),
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                itemCount: orders.length,
+                separatorBuilder: (context, index) => Divider(),
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> orderItem = orders[index];
+
+                  return Container(
+                    height: MediaQuery.of(context).size.height / 6,
+                    width: MediaQuery.of(context).size.width,
+                    child: Card(
+                      margin: EdgeInsets.all(8.0),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 80,
+                              height: 80,
+                              child: GestureDetector(
+                                onTap: () {
+                                  BlocProvider.of<StoreBloc>(context)
+                                      .add(ShowOrderProduct());
+                                },
+                                child: FutureBuilder(
+                                  future: getImageUrl(orderItem['image']),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return CircularProgressIndicator();
+                                    } else {
+                                      return Image.network(
+                                        snapshot.data.toString(),
+                                        width: 80.0,
+                                        height: 80.0,
+                                        fit: BoxFit.cover,
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '${orderItem['name']}...',
+                                    style: TextStyle(fontSize: 16.0),
+                                  ),
+                                  Text(
+                                    '\$${orderItem['price']}',
+                                    style: TextStyle(fontSize: 14.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Cantiadad
+                            FutureBuilder<List>(
+                              future: productsQuantity(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  return Text(
+                                    'Cantidad de productos: ${orderItem['quantity']}',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          ],
                         ),
-                        Text(
-                          '\$${snapshot.data?[0]['price']}',
-                          style: TextStyle(fontSize: 14.0),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // Eliminar
-                  SizedBox(
-                    width: 60.0,
-                    height: 30.0,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await deleteFromCart(snapshot.data?[0]['id']);
-                        BlocProvider.of<StoreBloc>(context)
-                            .add(AddProductEvent());
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 36, 181, 225)),
                       ),
-                      child: Icon(Icons.remove),
                     ),
-                  ),
-                  // Cantidad
-                  FutureBuilder<List>(
-                      future: productsQuantity(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          return Text(
-                            'Cantidad: ${snapshot.data?[0]}',
-                            style: TextStyle(fontSize: 14.0),
-                          );
-                        }
-                      }),
-                  // Agregar
-                  SizedBox(
-                    width: 60.0,
-                    height: 30.0,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await addToCart(snapshot.data?[0]['id']);
-                        BlocProvider.of<StoreBloc>(context)
-                            .add(AddProductEvent());
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 36, 181, 225)),
-                      ),
-                      child: Icon(Icons.add),
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
-          ),
+            Divider(),
+            Text(
+              '¡Haz llegado al final de tu lista de pedidos!',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            Divider(),
+          ],
         );
       } else {
         return Card();
