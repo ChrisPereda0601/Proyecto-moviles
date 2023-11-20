@@ -68,3 +68,8 @@ class DecreseaseProductEvent extends StoreEvent {
 class NoConnectionEvent extends StoreEvent {
   NoConnectionEvent();
 }
+
+//Manejo de pedidos
+class ViewOrdersEvent extends StoreEvent {
+  ViewOrdersEvent();
+}

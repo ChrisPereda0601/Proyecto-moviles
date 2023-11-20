@@ -2,7 +2,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tienda_online/Pages/search_results.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
@@ -249,6 +248,17 @@ Container VerticalContent(BuildContext context) {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: gestureDetectorsH,
+              ),
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height / 1.6,
+              child: GridView.count(
+                primary: false,
+                padding: EdgeInsets.all(20),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+                children: gestureDetectors,
               ),
             ),
           ],
