@@ -43,7 +43,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(StoreSearchState());
     });
     on<QrEvent>((event, emit) {
-      emit(StoreCarState()); //emit pendiente
+      emit(StoreCarState());
     });
     on<LoginEvent>((event, emit) {
       emit(StoreLoginState());
@@ -63,7 +63,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       if (!hasConnection) {
         emit(NoConnectionState());
       } else {
-        emit(StoreHomeState());
+        emit(StoreLoginState());
       }
     });
     on<ViewOrdersEvent>((event, emit) {

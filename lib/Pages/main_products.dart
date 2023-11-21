@@ -64,6 +64,7 @@ Widget productGestureDetector() {
                               return Image.network(
                                 snapshot.data.toString(),
                                 width: MediaQuery.of(context).size.width / 5,
+                                height: MediaQuery.of(context).size.width / 5,
                                 fit: BoxFit.fill,
                               );
                             }
@@ -140,6 +141,7 @@ Widget productGestureDetectorH() {
                               return Image.network(
                                 snapshot.data.toString(),
                                 width: MediaQuery.of(context).size.width / 5,
+                                height: MediaQuery.of(context).size.width / 5,
                                 fit: BoxFit.fill,
                               );
                             }

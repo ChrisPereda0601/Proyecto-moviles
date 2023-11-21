@@ -1,24 +1,32 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
+import 'package:tienda_online/services/firebase_services_auth.dart';
 // import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
+
+TextEditingController _usernameController = TextEditingController();
+TextEditingController _passwordController = TextEditingController();
+TextEditingController _emailController = TextEditingController();
+
+final FirebaseAuthService _auth = FirebaseAuthService();
 
 Form registerForm(BuildContext context) {
   return Form(
     // key: _formKey,
     child: Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(20.0),
       child: Column(
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-              onPressed: () {
-                BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
-              },
-              icon: Icon(Icons.arrow_back_ios_new_rounded),
-            ),
-          ),
+          // Align(
+          //   alignment: Alignment.centerLeft,
+          //   child: IconButton(
+          //     onPressed: () {
+          //       BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+          //     },
+          //     icon: Icon(Icons.arrow_back_ios_new_rounded),
+          //   ),
+          // ),
           Text(
             'Register',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -36,6 +44,7 @@ Form registerForm(BuildContext context) {
             // },
           ),
           TextFormField(
+            controller: _emailController,
             decoration: InputDecoration(labelText: 'Email'),
             // validator: (value) {
             //   if (value.isEmpty || !value.contains('@')) {
@@ -48,6 +57,7 @@ Form registerForm(BuildContext context) {
             // },
           ),
           TextFormField(
+            controller: _passwordController,
             decoration: InputDecoration(labelText: 'Password'),
             obscureText: true,
             // validator: (value) {
@@ -61,13 +71,26 @@ Form registerForm(BuildContext context) {
             // },
           ),
           SizedBox(height: 20),
-          // RaisedButton(
-          //   onPressed: _submitForm,
-          // child:
-          Text('Sign in'),
-          // ),
+          ElevatedButton(
+            onPressed: () {
+              _signUp(context);
+            },
+            child: Text('Sign up'),
+          ),
         ],
       ),
     ),
   );
+}
+
+void _signUp(BuildContext context) async {
+  // String username = _usernameController.text;
+  String email = _emailController.text;
+  String password = _passwordController.text;
+
+  User? user = await _auth.signUp(email, password);
+
+  if (user != null) {
+    BlocProvider.of<StoreBloc>(context).add(LoginEvent());
+  }
 }
