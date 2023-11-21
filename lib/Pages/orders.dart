@@ -28,7 +28,7 @@ Widget Orders(BuildContext context) {
                   GestureDetector(
                     onTap: () {
                       BlocProvider.of<StoreBloc>(context)
-                          .add(ShowDetailProduct());
+                          .add(ShowDetailProduct(snapshot.data?[0]));
                     },
                     child: FutureBuilder(
                       future: getImageUrl(snapshot.data?[0]['image']),

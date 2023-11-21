@@ -5,15 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
-Map<String, dynamic> _productDetail = {};
-Map<String, dynamic> get getProductDetail => _productDetail;
-
-class Detail {
-  void setProductDetail(Map<String, dynamic> productDetail) {
-    _productDetail = productDetail;
-  }
-}
-
 TextEditingController _productSearched = TextEditingController();
 TextEditingController get getProductSearched => _productSearched;
 
@@ -32,8 +23,8 @@ Widget productGestureDetector() {
           width: MediaQuery.of(context).size.width / 3,
           child: GestureDetector(
             onTap: () {
-              _productDetail = snapshot.data?[randomProduct];
-              BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
+              BlocProvider.of<StoreBloc>(context)
+                  .add(ShowDetailProduct(snapshot.data?[randomProduct]));
             },
             child: Card(
               shape: RoundedRectangleBorder(
@@ -122,8 +113,8 @@ Widget productGestureDetectorH() {
           width: MediaQuery.of(context).size.width / 1.5,
           child: GestureDetector(
             onTap: () {
-              _productDetail = snapshot.data?[randomProduct];
-              BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
+              BlocProvider.of<StoreBloc>(context)
+                  .add(ShowDetailProduct(snapshot.data?[randomProduct]));
             },
             child: Container(
               height: 80,

@@ -25,7 +25,9 @@ class DeleteProductEvent extends StoreEvent {
 
 // ignore: must_be_immutable
 class ShowDetailProduct extends StoreEvent {
-  ShowDetailProduct();
+  var data;
+
+  ShowDetailProduct(this.data);
 }
 
 class ViewCarEvent extends StoreEvent {

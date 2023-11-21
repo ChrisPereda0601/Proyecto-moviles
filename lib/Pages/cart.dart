@@ -29,7 +29,7 @@ Widget CartProducts(int i) {
                   GestureDetector(
                     onTap: () {
                       BlocProvider.of<StoreBloc>(context)
-                          .add(ShowDetailProduct());
+                          .add(ShowDetailProduct(snapshot.data?[i]));
                     },
                     child: FutureBuilder(
                       future: getImageUrl(snapshot.data?[i]['image']),
@@ -152,7 +152,7 @@ Widget CartContent(BuildContext context) {
             alignment: Alignment.centerLeft,
             child: IconButton(
               onPressed: () {
-                BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
+                BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
               },
               icon: Icon(Icons.arrow_back_ios_new_rounded),
             ),

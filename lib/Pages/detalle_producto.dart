@@ -32,7 +32,8 @@ Widget detalleProducto(BuildContext context) {
                   } else {
                     return Image.network(
                       snapshot.data.toString(),
-                      width: MediaQuery.of(context).size.width / 1.3,
+                      width: MediaQuery.of(context).size.width / 1.5,
+                      height: MediaQuery.of(context).size.width / 1.5,
                       fit: BoxFit.fill,
                     );
                   }
