@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/services/firebase_services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 Widget detalleProducto(BuildContext context) {
   return Column(
@@ -123,8 +124,13 @@ Widget detalleProducto(BuildContext context) {
               style: TextStyle(fontSize: 18),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                QrImageView(
+                  data: "${getProductDetail['id']}",
+                  version: QrVersions.auto,
+                  size: 100.0,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
@@ -136,7 +142,7 @@ Widget detalleProducto(BuildContext context) {
                   child: Text("Ver carrito"),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
