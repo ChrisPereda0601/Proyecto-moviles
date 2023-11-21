@@ -20,7 +20,7 @@ void main() async {
 
   runApp(
     BlocProvider(
-      create: (context) => storeBloc..add(SearchEvent()),
+      create: (context) => storeBloc,
       child: MyApp(),
     ),
   );
