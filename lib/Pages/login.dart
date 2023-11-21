@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
+import 'package:tienda_online/services/firebase_services.dart';
 import 'package:tienda_online/services/firebase_services_auth.dart';
 
 TextEditingController _passwordController = TextEditingController();
@@ -81,6 +82,7 @@ void _signIn(BuildContext context) async {
   User? user = await _auth.signIn(email, password);
 
   if (user != null) {
+    currentUser(user.uid);
     BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
   }
 }
