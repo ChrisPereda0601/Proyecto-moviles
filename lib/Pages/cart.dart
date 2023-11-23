@@ -209,8 +209,7 @@ Widget CartContent(BuildContext context) {
                       List<Map<String, dynamic>>.from(cartProducts);
                   if (cartProducts.isNotEmpty == true) {
                     try {
-                      await createOrder(
-                          'pc3EWbYjinPMHdTNMlOD', typedCartProducts);
+                      await createOrder(typedCartProducts);
                       await clearUserCart();
                       BlocProvider.of<StoreBloc>(context)
                           .emit(StoreUpdateState());
