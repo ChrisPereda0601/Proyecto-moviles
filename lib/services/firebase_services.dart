@@ -47,11 +47,9 @@ Future<List> getUserCart() async {
 
 //Get user orders
 Future<List<Map<String, dynamic>>> getUserOrder() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
 
   CollectionReference productsCollection =
       FirebaseFirestore.instance.collection('products');
@@ -87,6 +85,7 @@ Future<List<Map<String, dynamic>>> getUserOrder() async {
           'orderDetails': orderItem,
           'products': productList,
         });
+        print('${orderList}');
       }
     }
   }
@@ -95,10 +94,11 @@ Future<List<Map<String, dynamic>>> getUserOrder() async {
 }
 
 //Agregar nueva orden
-Future<void> createOrder(
-    String userID, List<Map<String, dynamic>> products) async {
+Future<void> createOrder(List<Map<String, dynamic>> products) async {
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
+
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
 
   Map<String, dynamic> orderData = {};
 
@@ -116,7 +116,7 @@ Future<void> createOrder(
     }
   }
 
-  await userCollection.doc(userID).update({
+  await userCollection.doc(userId).update({
     'order': FieldValue.arrayUnion([orderData]),
   });
 
@@ -225,19 +225,16 @@ Future<String> getImageUrl(String url) async {
 
 //Eliminar carrito por completo
 Future<void> clearUserCart() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
-  await userCollection.doc(userID).update({'cart': {}});
+  await userCollection.doc(userId).update({'cart': {}});
 }
 
 Future<String?> getAddress() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
 
   if (userInfo.exists && userInfo.data() != null) {
     Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
@@ -248,6 +245,7 @@ Future<String?> getAddress() async {
   }
 
   return null;
+}
 
 void createUser(User user, String username, String email, String address) {
   FirebaseFirestore.instance.collection('users').doc(user.uid).set({
