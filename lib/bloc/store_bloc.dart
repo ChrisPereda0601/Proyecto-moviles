@@ -35,6 +35,9 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       _productDetail = event.data;
       emit(StoreDetailState());
     });
+    on<ShowOrderProduct>((event, emit) {
+      emit(StoreOrderState());
+    });
     on<ViewCarEvent>((event, emit) {
       emit(StoreCarState());
     });
@@ -54,9 +57,6 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     on<PayEvent>((event, emit) {
       emit(PayState());
     });
-    on<DeleteCarEvent>((event, emit) {
-      emit(StoreCarState());
-    });
     on<NoConnectionEvent>((event, emit) async {
       bool hasConnection = await ConnectivityService().hasConnection();
 
@@ -68,6 +68,38 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     });
     on<ViewOrdersEvent>((event, emit) {
       emit(StoreOrdersState());
+    });
+    on<UpdateCartEvent>((event, emit) {
+      emit(LoadingState());
+
+      Future.delayed(Duration(milliseconds: 300));
+
+      emit(StoreUpdateState());
+    });
+    on<DeleteCarEvent>((event, emit) {
+      emit(LoadingState());
+
+      emit(StoreDeleteState());
+    });
+    on<ChangePageEvent>((event, emit) {
+      emit(LoadingState());
+
+      switch (event.newIndex) {
+        case 0:
+          emit(StoreHomeState());
+          break;
+        case 1:
+          emit(StoreSearchState());
+          break;
+        case 2:
+          emit(StoreCarState());
+          break;
+        case 3:
+          emit(StoreOrdersState());
+          break;
+        default:
+          emit(StoreHomeState());
+      }
     });
 
     // on<StoreEvent>((event, emit) {});

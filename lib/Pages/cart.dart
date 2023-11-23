@@ -203,7 +203,21 @@ Widget CartContent(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  List<dynamic> cartProducts = await getUserCart();
+                  List<Map<String, dynamic>> typedCartProducts =
+                      List<Map<String, dynamic>>.from(cartProducts);
+                  if (cartProducts.isNotEmpty == true) {
+                    try {
+                      await createOrder(
+                          'pc3EWbYjinPMHdTNMlOD', typedCartProducts);
+                      await clearUserCart();
+                      BlocProvider.of<StoreBloc>(context)
+                          .emit(StoreUpdateState());
+                    } catch (e) {
+                      print("Error al crear la orden: $e");
+                    }
+                  }
                   // Usuario: sb-3yif128036903@personal.example.com
                   //Contraseña: Q7&n<1z/
                   Navigator.of(context).push(MaterialPageRoute(
@@ -290,7 +304,15 @@ Widget CartContent(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    await clearUserCart();
+                    BlocProvider.of<StoreBloc>(context)
+                        .emit(StoreDeleteState());
+                  } catch (e) {
+                    print("Error al vaciar el carrito: $e");
+                  }
+                },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                     Color.fromARGB(255, 36, 181, 225),
