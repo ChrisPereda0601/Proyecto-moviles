@@ -30,6 +30,10 @@ class ShowDetailProduct extends StoreEvent {
   ShowDetailProduct(this.data);
 }
 
+class ShowOrderProduct extends StoreEvent {
+  ShowOrderProduct();
+}
+
 class ViewCarEvent extends StoreEvent {
   ViewCarEvent();
 }
@@ -74,4 +78,12 @@ class NoConnectionEvent extends StoreEvent {
 //Manejo de pedidos
 class ViewOrdersEvent extends StoreEvent {
   ViewOrdersEvent();
+}
+
+class UpdateCartEvent extends StoreEvent {}
+
+class ChangePageEvent extends StoreEvent {
+  final int newIndex;
+
+  ChangePageEvent(this.newIndex);
 }
