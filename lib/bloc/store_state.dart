@@ -59,3 +59,7 @@ final class NoConnectionState extends StoreState {}
 
 //Manejo de pedidos
 final class StoreOrdersState extends StoreState {}
+
+final class StoreUpdateState extends StoreState {}
+
+final class StoreDeleteState extends StoreState {}

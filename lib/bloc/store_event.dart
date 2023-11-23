@@ -77,3 +77,11 @@ class NoConnectionEvent extends StoreEvent {
 class ViewOrdersEvent extends StoreEvent {
   ViewOrdersEvent();
 }
+
+class UpdateCartEvent extends StoreEvent {}
+
+class ChangePageEvent extends StoreEvent {
+  final int newIndex;
+
+  ChangePageEvent(this.newIndex);
+}

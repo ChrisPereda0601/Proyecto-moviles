@@ -100,6 +100,10 @@ class _HomePageState extends State<HomePage> {
             return loginPage.loginForm(context);
           } else if (state is StoreRegisterState) {
             return registerPage.registerForm(context);
+          } else if (state is StoreUpdateState) {
+            return mainPage.VerticalContent(context);
+          } else if (state is StoreDeleteState) {
+            return mainPage.VerticalContent(context);
           } else if (state is PayState) {
             return Container();
           } else if (state is LoadingState) {
