@@ -95,9 +95,8 @@ Future<List<Widget>> SeacrhContent(BuildContext context) async {
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: () {
-                Detail detail = Detail();
-                detail.setProductDetail(product);
-                BlocProvider.of<StoreBloc>(context).add(ShowDetailProduct());
+                BlocProvider.of<StoreBloc>(context)
+                    .add(ShowDetailProduct(product));
               },
               child: Container(
                 height: 120,

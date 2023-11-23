@@ -14,6 +14,7 @@ import 'package:tienda_online/Pages/login.dart' as loginPage;
 import 'package:tienda_online/Pages/register.dart' as registerPage;
 import 'package:tienda_online/Pages/orders.dart' as ordersPage;
 import 'package:tienda_online/estado_entrega.dart' as entregaPage;
+import 'qr_view_scan.dart';
 
 //Firebase imports
 // import 'package:firebase_core/firebase_core.dart';
@@ -56,11 +57,8 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.qr_code),
               tooltip: "Read QR",
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (context) => QR(),
-                //   ),
-                // );
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => QRViewScan()));
               },
             ),
           ),

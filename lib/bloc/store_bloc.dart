@@ -9,6 +9,15 @@ import 'package:tienda_online/Pages/main_products.dart';
 part 'store_event.dart';
 part 'store_state.dart';
 
+Map<String, dynamic> _productDetail = {};
+Map<String, dynamic> get getProductDetail => _productDetail;
+
+class Detail {
+  void setProductDetail(Map<String, dynamic> productDetail) {
+    _productDetail = productDetail;
+  }
+}
+
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
   StoreBloc() : super(StoreState()) {
     on<GetProductsEvent>((event, emit) {
@@ -23,6 +32,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(StoreCarState());
     });
     on<ShowDetailProduct>((event, emit) {
+      _productDetail = event.data;
       emit(StoreDetailState());
     });
     on<ShowOrderProduct>((event, emit) {
@@ -36,7 +46,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       emit(StoreSearchState());
     });
     on<QrEvent>((event, emit) {
-      emit(StoreCarState()); //emit pendiente
+      emit(StoreCarState());
     });
     on<LoginEvent>((event, emit) {
       emit(StoreLoginState());
@@ -53,7 +63,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       if (!hasConnection) {
         emit(NoConnectionState());
       } else {
-        emit(StoreHomeState());
+        emit(StoreLoginState());
       }
     });
     on<ViewOrdersEvent>((event, emit) {

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
+String userId = '';
 
 Future<List> getProducts() async {
   List products = [];
@@ -21,11 +23,9 @@ Future<List> getProducts() async {
 }
 
 Future<List> getUserCart() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
 
   Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
   Map cart = data['cart'];
@@ -124,12 +124,9 @@ Future<void> createOrder(
 }
 
 Future<void> addToCart(String id) async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-  print('Id es: ' + id);
-
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
 
   Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
 
@@ -150,16 +147,14 @@ Future<void> addToCart(String id) async {
 
   // Actualiza el carrito en la base de datos
   await userCollection
-      .doc(userID)
+      .doc(userId)
       .set({'cart': data['cart']}, SetOptions(merge: true));
 }
 
 Future<void> deleteFromCart(String id) async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
 
   Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
 
@@ -180,15 +175,14 @@ Future<void> deleteFromCart(String id) async {
 
   // Actualiza el carrito en la base de datos
   await userCollection
-      .doc(userID)
+      .doc(userId)
       .set({'cart': data['cart']}, SetOptions(merge: true));
 }
 
 Future<List> getUserCartQuantity() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
   Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
   Map cart = data['cart'];
   List productsQuantity = [];
@@ -201,11 +195,9 @@ Future<List> getUserCartQuantity() async {
 }
 
 Future<num> getUserCartTotal() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
 
   Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
   Map cart = data['cart'];
@@ -218,8 +210,8 @@ Future<num> getUserCartTotal() async {
 
   for (var productId in cart.keys) {
     product = await productsCollection.doc(productId).get();
+    print(product['price']);
     price = (product['price'] as num) * (cart[productId] as num);
-    print(price);
     productsTotal += price;
   }
 
@@ -256,4 +248,17 @@ Future<String?> getAddress() async {
   }
 
   return null;
+
+void createUser(User user, String username, String email, String address) {
+  FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+    'name': username,
+    'e-mail': email,
+    'address': address,
+    'cart': {},
+    'order': []
+  });
+}
+
+void currentUser(String id) {
+  userId = id;
 }

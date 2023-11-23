@@ -1,7 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
-// import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
+import 'package:tienda_online/services/firebase_services.dart';
+import 'package:tienda_online/services/firebase_services_auth.dart';
+
+TextEditingController _passwordController = TextEditingController();
+TextEditingController _emailController = TextEditingController();
+
+final FirebaseAuthService _auth = FirebaseAuthService();
 
 Form loginForm(BuildContext context) {
   return Form(
@@ -24,6 +31,7 @@ Form loginForm(BuildContext context) {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           TextFormField(
+            controller: _emailController,
             decoration: InputDecoration(labelText: 'Email'),
             // validator: (value) {
             //   if (value.isEmpty || !value.contains('@')) {
@@ -36,6 +44,7 @@ Form loginForm(BuildContext context) {
             // },
           ),
           TextFormField(
+            controller: _passwordController,
             decoration: InputDecoration(labelText: 'Password'),
             obscureText: true,
             // validator: (value) {
@@ -49,11 +58,12 @@ Form loginForm(BuildContext context) {
             // },
           ),
           SizedBox(height: 20),
-          // RaisedButton(
-          //   onPressed: _submitForm,
-          // child:
-          Text('Login'),
-          // ),
+          ElevatedButton(
+            onPressed: () {
+              _signIn(context);
+            },
+            child: Text('Log in'),
+          ),
           TextButton(
               onPressed: () {
                 BlocProvider.of<StoreBloc>(context).add(RegisterEvent());
@@ -63,4 +73,16 @@ Form loginForm(BuildContext context) {
       ),
     ),
   );
+}
+
+void _signIn(BuildContext context) async {
+  String email = _emailController.text;
+  String password = _passwordController.text;
+
+  User? user = await _auth.signIn(email, password);
+
+  if (user != null) {
+    currentUser(user.uid);
+    BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+  }
 }

@@ -19,6 +19,38 @@ Widget Orders(BuildContext context) {
       if (snapshot.hasData && snapshot.data?.isNotEmpty == true) {
         List<Map<String, dynamic>> orders =
             snapshot.data as List<Map<String, dynamic>>;
+      if (snapshot.hasData) {
+        return Container(
+          height: MediaQuery.of(context).size.height / 6,
+          width: MediaQuery.of(context).size.width,
+          child: Card(
+            margin: EdgeInsets.all(8.0),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<StoreBloc>(context)
+                          .add(ShowDetailProduct(snapshot.data?[0]));
+                    },
+                    child: FutureBuilder(
+                      future: getImageUrl(snapshot.data?[0]['image']),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return Image.network(
+                            snapshot.data.toString(),
+                            width: 80.0,
+                            height: 80.0,
+                            fit: BoxFit.cover,
+                          );
+                        }
+                      },
+                    ),
+                  ),
 
         print('Órdenes: $orders');
 
