@@ -45,82 +45,14 @@ Future<List> getUserCart() async {
   return products;
 }
 
-//Get user orders
-Future<List<Map<String, dynamic>>> getUserOrder() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
-
+Future<DocumentSnapshot<Object?>> getSpecificProduct() async {
   CollectionReference productsCollection =
       FirebaseFirestore.instance.collection('products');
+  DocumentSnapshot<Object?> product;
 
-  Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
+  product = await productsCollection.doc('I1jmjgHZTUGDi3k3Wnz6').get();
 
-  dynamic orderData = data['order'];
-  List<Map<String, dynamic>> orderList = [];
-
-  if (orderData is List<dynamic>) {
-    for (var orderItem in orderData) {
-      if (orderItem is Map<String, dynamic>) {
-        List<Map<String, dynamic>> productList = [];
-
-        for (var productId in orderItem.keys) {
-          var productQuantity = orderItem[productId];
-
-          DocumentSnapshot<Object?> product =
-              await productsCollection.doc(productId).get();
-
-          if (product.exists) {
-            Map<String, dynamic> productData =
-                (product.data() as Map<String, dynamic>)
-                    .cast<String, dynamic>();
-            productData['id'] = productId;
-            productData['quantity'] = productQuantity;
-
-            productList.add(productData);
-          }
-        }
-
-        orderList.add({
-          'orderDetails': orderItem,
-          'products': productList,
-        });
-      }
-    }
-  }
-
-  return orderList;
-}
-
-//Agregar nueva orden
-Future<void> createOrder(
-    String userID, List<Map<String, dynamic>> products) async {
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-
-  Map<String, dynamic> orderData = {};
-
-  for (var product in products) {
-    String productID = product['id'];
-    int productQuantity = product['quantity'];
-
-    DocumentSnapshot<Object?> productDoc = await FirebaseFirestore.instance
-        .collection('products')
-        .doc(productID)
-        .get();
-
-    if (productDoc.exists) {
-      orderData['$productID'] = productQuantity;
-    }
-  }
-
-  await userCollection.doc(userID).update({
-    'order': FieldValue.arrayUnion([orderData]),
-  });
-
-  print("Sí llegamos");
+  return product;
 }
 
 Future<void> addToCart(String id) async {
@@ -165,8 +97,8 @@ Future<void> deleteFromCart(String id) async {
       // Si el producto ya está en el carrito, actualiza la cantidad
       cart[id] = (cart[id] as int) - 1;
     } else {
-      // Si el producto ya tiene cantidad de 1, elimínalo
-      cart.remove(id);
+      // Si el producto no está en el carrito, agrégalo
+      cart[id] = 1;
     }
   } else {
     // Si el usuario no tiene un carrito, crea uno nuevo
@@ -222,32 +154,6 @@ Future<String> getImageUrl(String url) async {
   Reference storageReference = FirebaseStorage.instance.ref().child(url);
   return await storageReference.getDownloadURL();
 }
-
-//Eliminar carrito por completo
-Future<void> clearUserCart() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-
-  await userCollection.doc(userID).update({'cart': {}});
-}
-
-Future<String?> getAddress() async {
-  String userID = 'pc3EWbYjinPMHdTNMlOD';
-
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userID).get();
-
-  if (userInfo.exists && userInfo.data() != null) {
-    Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
-
-    if (data.containsKey('address')) {
-      return data['address'] as String?;
-    }
-  }
-
-  return null;
 
 void createUser(User user, String username, String email, String address) {
   FirebaseFirestore.instance.collection('users').doc(user.uid).set({
