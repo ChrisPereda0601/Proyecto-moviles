@@ -102,9 +102,13 @@ Future<void> createOrder(List<Map<String, dynamic>> products) async {
 
   Map<String, dynamic> orderData = {};
 
+  Map<String, dynamic> userCart =
+      (userInfo.data() as Map<String, dynamic>)['cart'];
+
   for (var product in products) {
     String productID = product['id'];
-    int productQuantity = product['quantity'];
+    int productQuantity =
+        userCart.containsKey(productID) ? userCart[productID] : 0;
 
     DocumentSnapshot<Object?> productDoc = await FirebaseFirestore.instance
         .collection('products')
