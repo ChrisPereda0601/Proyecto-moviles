@@ -23,6 +23,14 @@ class DeleteProductEvent extends StoreEvent {
   DeleteProductEvent();
 }
 
+class QrProductEvent extends StoreEvent {
+  final String id_product;
+  QrProductEvent({required this.id_product});
+
+  @override
+  List<Object> get props => [this.id_product];
+}
+
 // ignore: must_be_immutable
 class ShowDetailProduct extends StoreEvent {
   var data;

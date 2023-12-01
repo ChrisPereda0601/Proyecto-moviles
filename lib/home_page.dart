@@ -50,6 +50,8 @@ class _HomePageState extends State<HomePage> {
               tooltip: "Read QR",
               onPressed: () {
                 if (isUserLoggedIn()) {
+                  // BlocProvider.of<StoreBloc>(context)
+                  //     .add(QrProductEvent(id_product: "Lve3BY64lqGR6uCLRZ0Y"));
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => QRViewScan()));
                 }

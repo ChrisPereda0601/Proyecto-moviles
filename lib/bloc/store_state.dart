@@ -65,3 +65,12 @@ final class StoreOrdersState extends StoreState {}
 final class StoreUpdateState extends StoreState {}
 
 final class StoreDeleteState extends StoreState {}
+
+final class QrProductState extends StoreState {
+  final Map<dynamic, dynamic> product;
+
+  QrProductState({required this.product});
+
+  @override
+  List<Object> get props => [this.product];
+}

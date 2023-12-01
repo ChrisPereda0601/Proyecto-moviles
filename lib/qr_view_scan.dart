@@ -3,7 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:tienda_online/bloc/store_bloc.dart';
+import 'package:tienda_online/services/firebase_services.dart';
 
 class QRViewScan extends StatefulWidget {
   const QRViewScan({Key? key}) : super(key: key);
@@ -33,7 +36,18 @@ class _QRViewScanState extends State<QRViewScan> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
+          Expanded(
+            flex: 4,
+            child: _buildQrView(context),
+          ),
+          BlocListener<StoreBloc, StoreState>(
+            listener: (context, state) {
+              if (state is QrProductState) {
+                _showProductDialog(context, state.product);
+              }
+            },
+            child: Container(),
+          )
         ],
       ),
     );
@@ -67,6 +81,8 @@ class _QRViewScanState extends State<QRViewScan> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        BlocProvider.of<StoreBloc>(context)
+            .add(QrProductEvent(id_product: result.toString()));
       });
     });
   }
@@ -84,5 +100,47 @@ class _QRViewScanState extends State<QRViewScan> {
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+  void _showProductDialog(BuildContext context, Map<dynamic, dynamic> product) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cerrar"))
+            ],
+            title: Text("${product['name']}"),
+            content: Container(
+              height: 600,
+              child: Column(
+                children: [
+                  FutureBuilder(
+                    future: getImageUrl(product['image']),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else {
+                        return Image.network(
+                          snapshot.data.toString(),
+                          width: MediaQuery.of(context).size.width / 1.7,
+                          fit: BoxFit.fill,
+                        );
+                      }
+                    },
+                  ),
+                  Text("${product['description']}")
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

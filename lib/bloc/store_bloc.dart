@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tienda_online/Pages/main_products.dart';
 // import 'package:flutter/material.dart';
@@ -20,6 +22,7 @@ class Detail {
 
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
   StoreBloc() : super(StoreState()) {
+    on<QrProductEvent>(_qrProductEvent);
     on<GetProductsEvent>((event, emit) {
       emit(LoadingState());
       emit(StoreHomeState());
@@ -107,34 +110,18 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
           emit(StoreHomeState());
       }
     });
+  }
 
-    // on<StoreEvent>((event, emit) {});
-
-    //   FutureOr<void> _getAllProducts(
-    //     GetProductsEvent event, Emitter emit) async {
-    //   try {
-    //     emit(AmphibianLoadingState());
-    //     var res = await get(
-    //       Uri.parse(
-    //           'https://developer.android.com/courses/pathways/android-basics-kotlin-unit-4-pathway-2/android-basics-kotlin-unit-4-pathway-2-project-api.json'),
-    //     );
-    //     if (res.statusCode == 200) {
-    //       _amphibians = (jsonDecode(res.body) as List)
-    //           .map((e) => Amphibian.fromMap(e))
-    //           .toList();
-    //       if (_amphibians == []) {
-    //         emit(AmphibianUnavailableState());
-    //       } else {
-    //         emit(AmphibianSucessState(amphibianList: _amphibians));
-    //       }
-    //     } else {
-    //       print("Error de respuesta http");
-    //       emit(AmphibianUnavailableState());
-    //     }
-    //   } catch (e) {
-    //     print("Error: ${e.toString()}.");
-    //     emit(AmphibianErrorState());
-    //   }
-    // }
+  FutureOr<void> _qrProductEvent(QrProductEvent event, Emitter emit) async {
+    try {
+      var product = await FirebaseFirestore.instance
+          .collection('products')
+          .doc(event.id_product)
+          .get();
+      Map<String, dynamic> productData = product.data() as Map<String, dynamic>;
+      emit(QrProductState(product: productData));
+    } catch (e) {
+      print(e);
+    }
   }
 }
