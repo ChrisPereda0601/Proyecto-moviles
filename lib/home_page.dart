@@ -1,9 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tienda_online/bloc/store_bloc.dart';
-
-// import 'package:tienda_online/detalle_producto.dart';
-// import 'package:tienda_online/search_results.dart';
 
 //Pages
 import 'package:tienda_online/Pages/search_results.dart' as resultsPage;
@@ -15,12 +13,6 @@ import 'package:tienda_online/Pages/register.dart' as registerPage;
 import 'package:tienda_online/Pages/orders.dart' as ordersPage;
 import 'package:tienda_online/estado_entrega.dart' as entregaPage;
 import 'qr_view_scan.dart';
-
-//Firebase imports
-// import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
-// import 'package:tienda_online/firebase_options.dart';
-// import 'package:tienda_online/services/firebase_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -57,8 +49,10 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.qr_code),
               tooltip: "Read QR",
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => QRViewScan()));
+                if (isUserLoggedIn()) {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => QRViewScan()));
+                }
               },
             ),
           ),
@@ -68,7 +62,9 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(Icons.person),
               tooltip: "Log In",
               onPressed: () {
-                BlocProvider.of<StoreBloc>(context).add(LoginEvent());
+                if (isUserLoggedIn()) {
+                  BlocProvider.of<StoreBloc>(context).add(LoginEvent());
+                }
               },
             ),
           ),
@@ -95,7 +91,7 @@ class _HomePageState extends State<HomePage> {
           } else if (state is StoreOrdersState) {
             return ordersPage.Orders(context);
           } else if (state is StoreLoginState) {
-            return loginPage.loginForm(context);
+            return loginPage.LoginForm(context);
           } else if (state is StoreRegisterState) {
             return registerPage.registerForm(context);
           } else if (state is StoreUpdateState) {
@@ -160,5 +156,10 @@ class _HomePageState extends State<HomePage> {
         BlocProvider.of<StoreBloc>(context).add(ViewOrdersEvent());
         break;
     }
+  }
+
+  bool isUserLoggedIn() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user != null;
   }
 }
