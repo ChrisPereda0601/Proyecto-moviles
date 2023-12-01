@@ -68,6 +68,9 @@ class _QRViewScanState extends State<QRViewScan> {
         print(lastScannedId);
         widget.onQRCodeScanned(lastScannedId);
         controller.pauseCamera();
+        Future.delayed(Duration(seconds: 2));
+
+        Navigator.pop(context);
       });
     });
   }

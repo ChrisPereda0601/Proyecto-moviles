@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     BlocProvider.of<StoreBloc>(context).add(
-      NoConnectionEvent(), // Ajusta según sea necesario
+      NoConnectionEvent(),
     );
   }
 
