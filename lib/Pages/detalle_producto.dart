@@ -78,8 +78,7 @@ Widget detalleProducto(BuildContext context) {
                     color: Color.fromARGB(255, 214, 237, 255),
                     elevation: 6,
                     child: Padding(
-                      padding: const EdgeInsets.all(
-                          10), //Padding entre container y sus elementos.
+                      padding: const EdgeInsets.all(10),
                       child: Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
