@@ -58,6 +58,11 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     on<PayEvent>((event, emit) {
       emit(PayState());
     });
+
+    on<ShowProfileEvent>((event, emit) {
+      emit(ProfileState());
+    });
+
     on<NoConnectionEvent>((event, emit) async {
       bool hasConnection = await ConnectivityService().hasConnection();
 

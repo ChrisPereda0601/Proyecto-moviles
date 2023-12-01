@@ -50,35 +50,16 @@ Form registerForm(BuildContext context) {
             controller: _emailController,
             decoration:
                 InputDecoration(labelText: 'Email (must contain @email)'),
-            // validator: (value) {
-            //   if (value.isEmpty || !value.contains('@')) {
-            //     return 'Please enter a valid email address';
-            //   }
-            //   return null;
-            // },
-            // onSaved: (value) {
-            //   _email = value;
-            // },
           ),
           TextFormField(
             controller: _passwordController,
             decoration:
                 InputDecoration(labelText: 'Password (at least 6 characters)'),
             obscureText: true,
-            // validator: (value) {
-            //   if (value.isEmpty || value.length < 6) {
-            //     return 'Password must be at least 6 characters';
-            //   }
-            //   return null;
-            // },
-            // onSaved: (value) {
-            //   _password = value;
-            // },
           ),
           TextFormField(
             controller: _addressController,
             decoration: InputDecoration(labelText: 'Address'),
-            obscureText: true,
           ),
           SizedBox(height: 20),
           ElevatedButton(
