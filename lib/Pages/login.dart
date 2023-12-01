@@ -10,7 +10,7 @@ TextEditingController _emailController = TextEditingController();
 
 final FirebaseAuthService _auth = FirebaseAuthService();
 
-Form loginForm(BuildContext context) {
+Form LoginForm(BuildContext context) {
   return Form(
     // key: _formKey,
     child: Padding(

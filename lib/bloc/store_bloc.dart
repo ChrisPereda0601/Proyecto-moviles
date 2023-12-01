@@ -21,6 +21,7 @@ class Detail {
 class StoreBloc extends Bloc<StoreEvent, StoreState> {
   StoreBloc() : super(StoreState()) {
     on<GetProductsEvent>((event, emit) {
+      emit(LoadingState());
       emit(StoreHomeState());
     });
     on<AddProductEvent>((event, emit) {
