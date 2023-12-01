@@ -5,6 +5,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 FirebaseFirestore db = FirebaseFirestore.instance;
 String userId = '';
 
+Future<Map<String, dynamic>> getProductById(String id) async {
+  CollectionReference productCollection =
+      FirebaseFirestore.instance.collection('products');
+  DocumentSnapshot<Object?> productInfo = await productCollection.doc(id).get();
+
+  Map<String, dynamic> product = productInfo.data() as Map<String, dynamic>;
+
+  return product;
+}
+
 Future<List> getProducts() async {
   List products = [];
   CollectionReference referenceProducts = db.collection('products');

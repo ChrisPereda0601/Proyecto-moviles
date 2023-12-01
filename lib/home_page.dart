@@ -12,6 +12,7 @@ import 'package:tienda_online/Pages/login.dart' as loginPage;
 import 'package:tienda_online/Pages/register.dart' as registerPage;
 import 'package:tienda_online/Pages/orders.dart' as ordersPage;
 import 'package:tienda_online/estado_entrega.dart' as entregaPage;
+import 'package:tienda_online/services/firebase_services.dart';
 import 'qr_view_scan.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,8 +51,14 @@ class _HomePageState extends State<HomePage> {
               tooltip: "Read QR",
               onPressed: () {
                 if (isUserLoggedIn()) {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => QRViewScan()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => QRViewScan(
+                      onQRCodeScanned: (scannedId) async {
+                        BlocProvider.of<StoreBloc>(context).add(
+                            ShowDetailProduct(await getProductById(scannedId)));
+                      },
+                    ),
+                  ));
                 }
               },
             ),
