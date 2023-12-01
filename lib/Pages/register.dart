@@ -49,7 +49,6 @@ Form registerForm(BuildContext context) {
           TextFormField(
             controller: _addressController,
             decoration: InputDecoration(labelText: 'Address'),
-            obscureText: true,
           ),
           SizedBox(height: 20),
           ElevatedButton(

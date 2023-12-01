@@ -139,6 +139,7 @@ Future<int> CartLength() async {
 }
 
 Widget CartContent(BuildContext context) {
+  int _currentIndex = 0;
   return FutureBuilder<int>(
     future: CartLength(),
     builder: (context, snapshot) {
@@ -147,74 +148,155 @@ Widget CartContent(BuildContext context) {
 
         List<Widget> cartProducts = [];
         for (int i = 0; i < cartLength; i++) cartProducts.add(CartProducts(i));
-        return Column(children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-              onPressed: () {
-                BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
-              },
-              icon: Icon(Icons.arrow_back_ios_new_rounded),
+        return Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                onPressed: () {
+                  BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+                },
+                icon: Icon(Icons.arrow_back_ios_new_rounded),
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: cartProducts,
+            Expanded(
+              child: ListView(
+                children: cartProducts,
+              ),
             ),
-          ),
-          FutureBuilder<num>(
-            future: PriceTotal(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 60,
-                        width: 130,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 27, 144, 180),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Total: \$${snapshot.data}",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+            FutureBuilder<num>(
+              future: PriceTotal(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 60,
+                          width: 130,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 27, 144, 180),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Total: \$${snapshot.data}",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
+                    ],
+                  );
+                }
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    List<dynamic> cartProducts = await getUserCart();
+                    List<Map<String, dynamic>> typedCartProducts =
+                        List<Map<String, dynamic>>.from(cartProducts);
+                    if (cartProducts.isNotEmpty == true) {
+                      try {
+                        await createOrder(typedCartProducts);
+                        await clearUserCart();
+                        BlocProvider.of<StoreBloc>(context)
+                            .emit(StoreUpdateState());
+                      } catch (e) {
+                        print("Error al crear la orden: $e");
+                      }
+                    }
+                    // Usuario: sb-3yif128036903@personal.example.com
+                    //Contraseña: Q7&n<1z/
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => PaypalCheckout(
+                        sandboxMode: true,
+                        clientId:
+                            "Ae5yu_1YTFRIUbx210ojdzwSFW2fZl8gPUyk9AvWMp-HoXqJpoamsmrUBFCR5F_mB1OifMdxOJ4uvmo6",
+                        secretKey:
+                            "EN0lddmvqyvk-R2irxHgX8CdpyylFY3hD9vB9CSNk7pOT30fT_EvrSShDB-Lfdq7C37Op7JerkpGH2kM",
+                        returnURL: "success.snippetcoder.com",
+                        cancelURL: "cancel.snippetcoder.com",
+                        transactions: const [
+                          {
+                            "amount": {
+                              "total": '70',
+                              "currency": "USD",
+                              "details": {
+                                "subtotal": '70',
+                                "shipping": '0',
+                                "shipping_discount": 0
+                              }
+                            },
+                            "description":
+                                "The payment transaction description.",
+                            "item_list": {
+                              "items": [
+                                {
+                                  "name": "Apple",
+                                  "quantity": 4,
+                                  "price": '5',
+                                  "currency": "USD"
+                                },
+                                {
+                                  "name": "Pineapple",
+                                  "quantity": 5,
+                                  "price": '10',
+                                  "currency": "USD"
+                                }
+                              ],
+                            }
+                          }
+                        ],
+                        note: "Contact us for any questions on your order.",
+                        onSuccess: (Map params) async {
+                          print("onSuccess: $params");
+                        },
+                        onError: (error) {
+                          Navigator.pop(context);
+                          print("onError: $error");
+                        },
+                        onCancel: () {
+                          print('cancelled:');
+                        },
+                      ),
+                    ));
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromARGB(255, 36, 181, 225),
                     ),
-                  ],
-                );
-              }
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  List<dynamic> cartProducts = await getUserCart();
-                  List<Map<String, dynamic>> typedCartProducts =
-                      List<Map<String, dynamic>>.from(cartProducts);
-                  if (cartProducts.isNotEmpty == true) {
+                  ),
+                  child: Text(
+                    "Confirmar compra",
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
                     try {
-                      await createOrder(typedCartProducts);
                       await clearUserCart();
                       BlocProvider.of<StoreBloc>(context)
-                          .emit(StoreUpdateState());
+                          .emit(StoreDeleteState());
                     } catch (e) {
-                      print("Error al crear la orden: $e");
+                      print("Error al vaciar el carrito: $e");
                     }
                   }
                   Navigator.of(context).push(MaterialPageRoute(
@@ -267,48 +349,72 @@ Widget CartContent(BuildContext context) {
                       onCancel: () {
                         print('cancelled:');
                       },
+
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Color.fromARGB(255, 36, 181, 225),
+
                     ),
-                  ));
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    Color.fromARGB(255, 36, 181, 225),
+                  ),
+                  child: Text(
+                    "Vaciar carrito",
                   ),
                 ),
-                child: Text(
-                  "Confirmar compra",
+              ],
+            ),
+            BottomNavigationBar(
+              currentIndex: _currentIndex,
+              onTap: (index) {
+                _currentIndex = index;
+
+                _onTabTapped(index, context);
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Inicio',
                 ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    await clearUserCart();
-                    BlocProvider.of<StoreBloc>(context)
-                        .emit(StoreDeleteState());
-                  } catch (e) {
-                    print("Error al vaciar el carrito: $e");
-                  }
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    Color.fromARGB(255, 36, 181, 225),
-                  ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Buscar',
                 ),
-                child: Text(
-                  "Vaciar carrito",
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart),
+                  label: 'Carrito',
                 ),
-              ),
-            ],
-          ),
-        ]);
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.menu),
+                  label: 'Pedidos',
+                ),
+              ],
+              selectedLabelStyle: TextStyle(color: Colors.black),
+              unselectedLabelStyle: TextStyle(color: Colors.black54),
+              selectedItemColor: Colors.black,
+              unselectedItemColor: Colors.black54,
+            ),
+          ],
+        );
       } else {
         return CircularProgressIndicator();
       }
     },
   );
+}
+
+void _onTabTapped(int index, context) {
+  switch (index) {
+    case 0:
+      BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+      break;
+    case 1:
+      BlocProvider.of<StoreBloc>(context).add(SearchEvent());
+      break;
+    case 2:
+      BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
+      break;
+    case 3:
+      BlocProvider.of<StoreBloc>(context).add(ViewOrdersEvent());
+      break;
+  }
 }

@@ -82,6 +82,8 @@ class ViewOrdersEvent extends StoreEvent {
 
 class UpdateCartEvent extends StoreEvent {}
 
+class ShowProfileEvent extends StoreEvent {}
+
 class ChangePageEvent extends StoreEvent {
   final int newIndex;
 

@@ -21,6 +21,8 @@ final class StoreLoginState extends StoreState {}
 
 final class StoreRegisterState extends StoreState {}
 
+final class ProfileState extends StoreState {}
+
 final class PayState extends StoreState {}
 
 final class LoadingState extends StoreState {}

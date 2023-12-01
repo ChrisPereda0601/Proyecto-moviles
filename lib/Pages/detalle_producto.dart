@@ -5,6 +5,7 @@ import 'package:tienda_online/services/firebase_services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 Widget detalleProducto(BuildContext context) {
+  int _currentIndex = 0;
   return Column(
     children: [
       Align(
@@ -145,6 +146,53 @@ Widget detalleProducto(BuildContext context) {
           ],
         ),
       ),
+      BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          _currentIndex = index;
+
+          _onTabTapped(index, context);
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Buscar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Carrito',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Pedidos',
+          ),
+        ],
+        selectedLabelStyle: TextStyle(color: Colors.black),
+        unselectedLabelStyle: TextStyle(color: Colors.black54),
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black54,
+      ),
     ],
   );
+}
+
+void _onTabTapped(int index, context) {
+  switch (index) {
+    case 0:
+      BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+      break;
+    case 1:
+      BlocProvider.of<StoreBloc>(context).add(SearchEvent());
+      break;
+    case 2:
+      BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
+      break;
+    case 3:
+      BlocProvider.of<StoreBloc>(context).add(ViewOrdersEvent());
+      break;
+  }
 }

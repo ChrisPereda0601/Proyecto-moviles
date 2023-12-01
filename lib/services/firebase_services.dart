@@ -133,8 +133,6 @@ Future<void> createOrder(List<Map<String, dynamic>> products) async {
   await userCollection.doc(userId).update({
     'order': FieldValue.arrayUnion([orderData]),
   });
-
-  print("Sí llegamos");
 }
 
 Future<void> addToCart(String id) async {
@@ -263,4 +261,19 @@ void createUser(User user, String username, String email, String address) {
 
 void currentUser(String id) {
   userId = id;
+}
+
+Future<Map<String, dynamic>> getUserInfo() async {
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+  DocumentSnapshot<Object?> userInfo = await userCollection.doc(userId).get();
+
+  if (userInfo.exists && userInfo.data() != null) {
+    Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
+    print(data);
+
+    return data;
+  }
+
+  return {};
 }

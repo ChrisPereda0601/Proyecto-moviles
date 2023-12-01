@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
 class EstadoEntrega extends StatelessWidget {
@@ -12,6 +14,8 @@ class EstadoEntrega extends StatelessWidget {
 
     int diasAleatorios = Random().nextInt(14) + 1;
     DateTime fechaEntrega = fechaActual.add(Duration(days: diasAleatorios));
+
+    int _currentIndex = 0;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -49,7 +53,7 @@ class EstadoEntrega extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                height: 200,
+                height: 145,
                 child: FutureBuilder<String?>(
                   future: getAddress(),
                   builder: (context, snapshot) {
@@ -62,7 +66,7 @@ class EstadoEntrega extends StatelessWidget {
 
                       return Card(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Column(
                             children: [
                               Row(
@@ -93,7 +97,7 @@ class EstadoEntrega extends StatelessWidget {
                                     text: TextSpan(
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: 'Entrega garantizada: ',
+                                          text: 'Fecha de entrega: \n',
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.black,
@@ -120,11 +124,58 @@ class EstadoEntrega extends StatelessWidget {
                   },
                 ),
               ),
+              BottomNavigationBar(
+                currentIndex: _currentIndex,
+                onTap: (index) {
+                  _currentIndex = index;
+
+                  _onTabTapped(index, context);
+                },
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Inicio',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search),
+                    label: 'Buscar',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.shopping_cart),
+                    label: 'Carrito',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.menu),
+                    label: 'Pedidos',
+                  ),
+                ],
+                selectedLabelStyle: TextStyle(color: Colors.black),
+                unselectedLabelStyle: TextStyle(color: Colors.black54),
+                selectedItemColor: Colors.black,
+                unselectedItemColor: Colors.black54,
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _onTabTapped(int index, context) {
+    switch (index) {
+      case 0:
+        BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
+        break;
+      case 1:
+        BlocProvider.of<StoreBloc>(context).add(SearchEvent());
+        break;
+      case 2:
+        BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
+        break;
+      case 3:
+        BlocProvider.of<StoreBloc>(context).add(ViewOrdersEvent());
+        break;
+    }
   }
 
   String _formatFecha(DateTime fecha) {

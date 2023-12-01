@@ -13,6 +13,8 @@ import 'package:tienda_online/Pages/register.dart' as registerPage;
 import 'package:tienda_online/Pages/orders.dart' as ordersPage;
 import 'package:tienda_online/estado_entrega.dart' as entregaPage;
 import 'package:tienda_online/services/firebase_services.dart';
+import 'package:tienda_online/Pages/profile.dart' as profilePage;
+
 import 'qr_view_scan.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,7 +27,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
   String _productSearched = '';
   String get getProductSearched => _productSearched;
 
@@ -67,10 +68,10 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(right: 25),
             child: IconButton(
               icon: Icon(Icons.person),
-              tooltip: "Log In",
+              tooltip: "Profile",
               onPressed: () {
                 if (isUserLoggedIn()) {
-                  BlocProvider.of<StoreBloc>(context).add(LoginEvent());
+                  BlocProvider.of<StoreBloc>(context).add(ShowProfileEvent());
                 }
               },
             ),
@@ -105,6 +106,8 @@ class _HomePageState extends State<HomePage> {
             return mainPage.VerticalContent(context);
           } else if (state is StoreDeleteState) {
             return mainPage.VerticalContent(context);
+          } else if (state is ProfileState) {
+            return profilePage.ProfileContent(context);
           } else if (state is PayState) {
             return Container();
           } else if (state is LoadingState) {
@@ -114,55 +117,7 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-          _onTabTapped(index);
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Buscar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Carrito',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Pedidos',
-          ),
-        ],
-        selectedLabelStyle: TextStyle(color: Colors.black),
-        unselectedLabelStyle: TextStyle(color: Colors.black54),
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black54,
-      ),
     );
-  }
-
-  void _onTabTapped(int index) {
-    switch (index) {
-      case 0:
-        BlocProvider.of<StoreBloc>(context).add(GetProductsEvent());
-        break;
-      case 1:
-        BlocProvider.of<StoreBloc>(context).add(SearchEvent());
-        break;
-      case 2:
-        BlocProvider.of<StoreBloc>(context).add(ViewCarEvent());
-        break;
-      case 3:
-        BlocProvider.of<StoreBloc>(context).add(ViewOrdersEvent());
-        break;
-    }
   }
 
   bool isUserLoggedIn() {
