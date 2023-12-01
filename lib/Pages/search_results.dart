@@ -7,105 +7,102 @@ import 'package:tienda_online/services/firebase_services.dart';
 Widget SearchResults(BuildContext context) {
   int _currentIndex = 0;
   return SingleChildScrollView(
-
-      child: FutureBuilder<List<Widget>>(
-        future: SeacrhContent(context),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            return Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(5),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          BlocProvider.of<StoreBloc>(context)
-                              .add(GetProductsEvent());
-                        },
-                        icon: Icon(Icons.arrow_back_ios_new_rounded),
-
-                      ),
-                      Text(
-                        '',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 200, 199, 199),
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    height: 40,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Search',
-                        icon: Icon(Icons.search),
-                        border: InputBorder.none,
-                      ),
-                      controller: getProductSearched,
-                      onSubmitted: (String product) {
-                        BlocProvider.of<StoreBloc>(context).add(SearchEvent());
+    child: FutureBuilder<List<Widget>>(
+      future: SeacrhContent(context),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        BlocProvider.of<StoreBloc>(context)
+                            .add(GetProductsEvent());
                       },
+                      icon: Icon(Icons.arrow_back_ios_new_rounded),
                     ),
-                  ),
+                    Text(
+                      '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height / 1.55,
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  child: ListView(
-                    children: snapshot.data ?? [],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 200, 199, 199),
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                ),
-                SingleChildScrollView(
-                  child: BottomNavigationBar(
-                    currentIndex: _currentIndex,
-                    onTap: (index) {
-                      _currentIndex = index;
-
-                      _onTabTapped(index, context);
+                  height: 40,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Search',
+                      icon: Icon(Icons.search),
+                      border: InputBorder.none,
+                    ),
+                    controller: getProductSearched,
+                    onSubmitted: (String product) {
+                      BlocProvider.of<StoreBloc>(context).add(SearchEvent());
                     },
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Inicio',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.search),
-                        label: 'Buscar',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.shopping_cart),
-                        label: 'Carrito',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.menu),
-                        label: 'Pedidos',
-                      ),
-                    ],
-                    selectedLabelStyle: TextStyle(color: Colors.black),
-                    unselectedLabelStyle: TextStyle(color: Colors.black54),
-                    selectedItemColor: Colors.black,
-                    unselectedItemColor: Colors.black54,
                   ),
                 ),
-              ],
-            );
-          }
-        },
-      ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height / 1.55,
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: ListView(
+                  children: snapshot.data ?? [],
+                ),
+              ),
+              SingleChildScrollView(
+                child: BottomNavigationBar(
+                  currentIndex: _currentIndex,
+                  onTap: (index) {
+                    _currentIndex = index;
+
+                    _onTabTapped(index, context);
+                  },
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Inicio',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.search),
+                      label: 'Buscar',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.shopping_cart),
+                      label: 'Carrito',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.menu),
+                      label: 'Pedidos',
+                    ),
+                  ],
+                  selectedLabelStyle: TextStyle(color: Colors.black),
+                  unselectedLabelStyle: TextStyle(color: Colors.black54),
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Colors.black54,
+                ),
+              ),
+            ],
+          );
+        }
+      },
     ),
   );
 }

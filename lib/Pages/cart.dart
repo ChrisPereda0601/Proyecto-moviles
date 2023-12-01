@@ -219,8 +219,6 @@ Widget CartContent(BuildContext context) {
                         print("Error al crear la orden: $e");
                       }
                     }
-                    // Usuario: sb-3yif128036903@personal.example.com
-                    //Contraseña: Q7&n<1z/
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (BuildContext context) => PaypalCheckout(
                         sandboxMode: true,
@@ -298,63 +296,10 @@ Widget CartContent(BuildContext context) {
                     } catch (e) {
                       print("Error al vaciar el carrito: $e");
                     }
-                  }
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => PaypalCheckout(
-                      sandboxMode: true,
-                      clientId:
-                          "Ae5yu_1YTFRIUbx210ojdzwSFW2fZl8gPUyk9AvWMp-HoXqJpoamsmrUBFCR5F_mB1OifMdxOJ4uvmo6",
-                      secretKey:
-                          "EN0lddmvqyvk-R2irxHgX8CdpyylFY3hD9vB9CSNk7pOT30fT_EvrSShDB-Lfdq7C37Op7JerkpGH2kM",
-                      returnURL: "success.snippetcoder.com",
-                      cancelURL: "cancel.snippetcoder.com",
-                      transactions: const [
-                        {
-                          "amount": {
-                            "total": '70',
-                            "currency": "USD",
-                            "details": {
-                              "subtotal": '70',
-                              "shipping": '0',
-                              "shipping_discount": 0
-                            }
-                          },
-                          "description": "The payment transaction description.",
-                          "item_list": {
-                            "items": [
-                              {
-                                "name": "Apple",
-                                "quantity": 4,
-                                "price": '5',
-                                "currency": "USD"
-                              },
-                              {
-                                "name": "Pineapple",
-                                "quantity": 5,
-                                "price": '10',
-                                "currency": "USD"
-                              }
-                            ],
-                          }
-                        }
-                      ],
-                      note: "Contact us for any questions on your order.",
-                      onSuccess: (Map params) async {
-                        print("onSuccess: $params");
-                      },
-                      onError: (error) {
-                        Navigator.pop(context);
-                        print("onError: $error");
-                      },
-                      onCancel: () {
-                        print('cancelled:');
-                      },
-
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                       Color.fromARGB(255, 36, 181, 225),
-
                     ),
                   ),
                   child: Text(

@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tienda_online/bloc/store_bloc.dart';
 import 'package:tienda_online/services/firebase_services.dart';
 
 TextEditingController _productSearched = TextEditingController();
@@ -50,6 +53,13 @@ Widget ProfileContent(BuildContext context) {
                     'Correo: ${snapshot.data?['e-mail']}',
                     style: TextStyle(fontSize: 16),
                   ),
+                  SizedBox(height: 5),
+                  ElevatedButton(
+                    onPressed: () {
+                      signOut(context);
+                    },
+                    child: Text('Log out'),
+                  ),
                 ],
               ),
             ),
@@ -60,4 +70,14 @@ Widget ProfileContent(BuildContext context) {
       }
     }),
   );
+}
+
+void signOut(BuildContext context) async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    print("User logged out successfully");
+    BlocProvider.of<StoreBloc>(context).add(LoginEvent());
+  } catch (e) {
+    print("Error logging out: $e");
+  }
 }
