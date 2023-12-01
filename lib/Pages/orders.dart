@@ -43,7 +43,6 @@ Widget Orders(BuildContext context) {
                           .first;
                   return InkWell(
                       onTap: () {
-                        // Navegar a la nueva página y pasar los detalles de la orden
                         Navigator.push(
                           context,
                           MaterialPageRoute(

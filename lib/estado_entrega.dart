@@ -18,21 +18,6 @@ class EstadoEntrega extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: IconButton(
-              //     onPressed: () {
-              //       // BlocProvider.of<StoreBloc>(context).add(ShowOrderProduct());
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (context) => Orders.Orders(context),
-              //         ),
-              //       );
-              //     },
-              //     icon: Icon(Icons.arrow_back_ios_new_rounded),
-              //   ),
-              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

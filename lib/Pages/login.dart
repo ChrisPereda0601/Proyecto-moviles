@@ -12,7 +12,6 @@ final FirebaseAuthService _auth = FirebaseAuthService();
 
 Form LoginForm(BuildContext context) {
   return Form(
-    // key: _formKey,
     child: Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(

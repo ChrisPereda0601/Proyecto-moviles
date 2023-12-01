@@ -144,22 +144,17 @@ Future<void> addToCart(String id) async {
 
   Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
 
-  // Verifica si el usuario ya tiene un carrito
   if (data.containsKey('cart')) {
     Map<String, dynamic> cart = data['cart'];
     if (cart.containsKey(id)) {
-      // Si el producto ya está en el carrito, actualiza la cantidad
       cart[id] = (cart[id] as int) + 1;
     } else {
-      // Si el producto no está en el carrito, agrégalo
       cart[id] = 1;
     }
   } else {
-    // Si el usuario no tiene un carrito, crea uno nuevo
     data['cart'] = {id: 1};
   }
 
-  // Actualiza el carrito en la base de datos
   await userCollection
       .doc(userId)
       .set({'cart': data['cart']}, SetOptions(merge: true));
@@ -172,22 +167,17 @@ Future<void> deleteFromCart(String id) async {
 
   Map<String, dynamic> data = userInfo.data() as Map<String, dynamic>;
 
-  // Verifica si el usuario ya tiene un carrito
   if (data.containsKey('cart')) {
     Map<String, dynamic> cart = data['cart'];
     if (cart.containsKey(id) && cart[id] as int > 1) {
-      // Si el producto ya está en el carrito, actualiza la cantidad
       cart[id] = (cart[id] as int) - 1;
     } else {
-      // Si el producto ya tiene cantidad de 1, elimínalo
       cart.remove(id);
     }
   } else {
-    // Si el usuario no tiene un carrito, crea uno nuevo
     data['cart'] = {id: 1};
   }
 
-  // Actualiza el carrito en la base de datos
   await userCollection
       .doc(userId)
       .set({'cart': data['cart']}, SetOptions(merge: true));

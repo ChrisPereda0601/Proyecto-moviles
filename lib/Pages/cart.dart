@@ -100,8 +100,8 @@ Widget CartProducts(int i) {
                       }),
                   // Agregar
                   SizedBox(
-                    width: 60.0, // Ancho deseado
-                    height: 30.0, // Alto deseado
+                    width: 60.0,
+                    height: 30.0,
                     child: ElevatedButton(
                       onPressed: () async {
                         await addToCart(snapshot.data?[i]['id']);
@@ -217,8 +217,6 @@ Widget CartContent(BuildContext context) {
                       print("Error al crear la orden: $e");
                     }
                   }
-                  // Usuario: sb-3yif128036903@personal.example.com
-                  //Contraseña: Q7&n<1z/
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => PaypalCheckout(
                       sandboxMode: true,
@@ -240,10 +238,6 @@ Widget CartContent(BuildContext context) {
                             }
                           },
                           "description": "The payment transaction description.",
-                          // "payment_options": {
-                          //   "allowed_payment_method":
-                          //       "INSTANT_FUNDING_SOURCE"
-                          // },
                           "item_list": {
                             "items": [
                               {
@@ -259,18 +253,6 @@ Widget CartContent(BuildContext context) {
                                 "currency": "USD"
                               }
                             ],
-
-                            // shipping address is not required though
-                            //   "shipping_address": {
-                            //     "recipient_name": "Raman Singh",
-                            //     "line1": "Delhi",
-                            //     "line2": "",
-                            //     "city": "Delhi",
-                            //     "country_code": "IN",
-                            //     "postal_code": "11001",
-                            //     "phone": "+00000000",
-                            //     "state": "Texas"
-                            //  },
                           }
                         }
                       ],
